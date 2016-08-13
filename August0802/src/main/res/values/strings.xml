@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">悦乎0802</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!--main right toolbar menu-->
+    <string name="action_settings">Settings</string>
+    <string name="action_abouts">Abouts</string>
+    <string name="action_details">Details</string>
+    <string name="action_features">Features</string>
+    <string name="action_updates">Updates</string>
+
+    <!--check network state-->
+    <string name="please_check_network">请检查网络是否连接</string>
+
+    <!--RecyclerView on load more-->
+    <string name="dialog_loading">玩命加载中</string>
+
+    <!--ContentActivity-->
+    <string name="action_comments">获取评论数量</string>
+    <string name="action_open_in_browser">在浏览器打开</string>
+    <string name="share_message">分享自 悦乎 </string>
+    <string name="share_to">分享到</string>
+    <string name="wrong_process">发生了一些错误</string>
+</resources>

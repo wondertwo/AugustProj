@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".ui.activity.AboutActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/about_app_app_bar"
+        android:fitsSystemWindows="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/about_app_tool_btn"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+        <!--app:layout_collapseMode="pin"-->
+
+    </android.support.design.widget.AppBarLayout>
+
+    <TextView
+        android:id="@+id/about_app_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:textSize="18sp"
+        android:textColor="@color/colorAccent"
+        android:text="
+        **  作者：一个漂亮的GoER \n
+        **  微博：一个漂亮的GoER \n
+        **  Email：\n\t\t\t\t\t\t\t\t\t\twondertwo1@163.com \n
+        **  博客：\n\t\t\t\t\t\t\t\t\t\twww.cnblogs.com/wondertwo \n\n
+        ------------------------\n\n
+        **  欢迎邮箱反馈交流 \n
+        **  保留本软件相关权限 \n
+        **  谢谢使用" />
+
+</RelativeLayout>

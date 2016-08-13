@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/drawer_zhihu"
+            android:icon="@drawable/drawer_zhihu"
+            android:title="知乎日报" />
+        <item
+            android:id="@+id/drawer_guokr"
+            android:icon="@drawable/drawer_guokr"
+            android:title="果壳精选" />
+        <item
+            android:id="@+id/drawer_theme"
+            android:icon="@drawable/drawer_theme"
+            android:title="主题日报" />
+        <item
+            android:id="@+id/drawer_girl"
+            android:icon="@drawable/drawer_girl"
+            android:title="漂亮妹纸" />
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/drawer_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="分享" />
+            <item
+                android:id="@+id/drawer_about"
+                android:icon="@drawable/ic_menu_send"
+                android:title="关于" />
+        </menu>
+    </item>
+
+</menu>
