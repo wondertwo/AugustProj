@@ -1,11 +1,11 @@
 
 ## 关于悦乎
 
-悦乎是一小巧精致的看知乎日报，看果壳精选，看漂亮妹纸的Android移动客户端APP。网络访问基于 `Retrofit+RxJava` 是学习 `Retorfit+RxJava` 的练手项目，目前上线第二版 `version 1.1.0` 仍有许多不完善之处，我会在后续进行更新维护。可通过以下二维码下载体验，同时欢迎大家提PR！
+悦乎是一个小巧精致的看知乎日报，看果壳精选，看漂亮妹纸的Android移动客户端APP。是学习 `Retorfit+RxJava` 的练手项目，所以网络访问基于 `Retrofit+RxJava`实现，目前上线第二版 `version 1.1.0` 仍有许多不完善之处，我会在后续进行更新维护。可通过以下二维码下载体验，同时欢迎大家提PR！
 
 ![](http://7xt4h7.com1.z0.glb.clouddn.com/Fir.im%E5%86%85%E6%B5%8B%E5%B9%B3%E5%8F%B0-%E6%82%A6%E4%B9%8E-%E4%BA%8C%E7%BB%B4%E7%A0%81.png)
 
-所有内容资源均来自网络，仅供学习使用。感谢 [ izzyleung同学提供的知乎日报API分析](https://github.com/izzyleung/ZhihuDailyPurify/wiki/%E7%9F%A5%E4%B9%8E%E6%97%A5%E6%8A%A5-API-%E5%88%86%E6%9E%90) 和 [代码家提供的干货集中营妹纸图片API](http://gank.io/api/data/%E7%A6%8F%E5%88%A9/1000/1)
+内容资源均来自网络，感谢 [ izzyleung同学提供的知乎日报API分析](https://github.com/izzyleung/ZhihuDailyPurify/wiki/%E7%9F%A5%E4%B9%8E%E6%97%A5%E6%8A%A5-API-%E5%88%86%E6%9E%90) 和 [代码家提供的干货集中营妹纸图片API](http://gank.io/api/data/%E7%A6%8F%E5%88%A9/1000/1)，仅供学习交流使用。
 
 
 ## 项目结构
