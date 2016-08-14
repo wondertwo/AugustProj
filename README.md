@@ -6,7 +6,7 @@
 ![](http://7xt4h7.com1.z0.glb.clouddn.com/Fir.im%E5%86%85%E6%B5%8B%E5%B9%B3%E5%8F%B0-%E6%82%A6%E4%B9%8E-%E4%BA%8C%E7%BB%B4%E7%A0%81.png)
 
 
-## ScreenShots
+## Screenshots
 
 <img src="screenshots/app_yuehu_01.jpg" width="308" height="548"/>
 <img src="screenshots/app_yuehu_02.jpg" width="308" height="548"/>
