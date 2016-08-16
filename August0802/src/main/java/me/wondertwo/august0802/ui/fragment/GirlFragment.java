@@ -52,8 +52,8 @@ public class GirlFragment extends BaseFragment {
 
     @Bind(R.id.fragment_girl_recycler)
     EasyRecyclerView mRecyclerView;
-    /*@Bind(R.id.fragment_girl_refresh)
-    SwipeRefreshLayout mRefreshLayout;*/
+    @Bind(R.id.fragment_girl_refresh)
+    SwipeRefreshLayout mRefreshLayout;
 
     @Nullable
     @Override
@@ -63,6 +63,8 @@ public class GirlFragment extends BaseFragment {
         ButterKnife.bind(this, view);
 
         initRecyclerView();
+
+        initRefreshLayout();
 
         return view;
     }
@@ -87,7 +89,6 @@ public class GirlFragment extends BaseFragment {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         //设置Adapter
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setRefreshListener(this);
 
         //准备Girl数据，初始化RecyclerView的时候先只加载一页
         prepareGirlData(1);
@@ -184,6 +185,34 @@ public class GirlFragment extends BaseFragment {
                 .subscribe(observer);
     }
 
+    private void initRefreshLayout() {
+
+        //设置下拉刷新的按钮的颜色
+        //mRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
+        //android.R.color.holo_orange_light, android.R.color.holo_red_light);
+
+        //设置下拉刷新按钮的背景颜色
+        //mRefreshLayout.setProgressBackgroundColorSchemeColor(Color.WHITE);
+        //设置下拉刷新按钮的大小
+        //mRefreshLayout.setSize(SwipeRefreshLayout.DEFAULT);
+
+        //设置手指在屏幕上下拉多少距离开始刷新
+        mRefreshLayout.setDistanceToTriggerSync(300);
+
+        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mRefreshLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mAdapter.clear();
+                        prepareGirlData(1);
+                        mRefreshLayout.setRefreshing(false);
+                    }
+                }, 2000);
+            }
+        });
+    }
 
     @Override
     public void onDestroy() {
@@ -191,19 +220,6 @@ public class GirlFragment extends BaseFragment {
         unSubscribe();
     }
 
-    /*@Override
-    public void onRefresh() {
-
-        mRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mRefreshLayout.setRefreshing(false);
-            }
-        });
-
-        mAdapter.clear();
-        prepareGirlData(mRequestPage);
-    }*/
 
     @Override
     public void onLoadMore() {

@@ -32,6 +32,8 @@ public class ZhihuViewHolder extends BaseViewHolder<DailyStoryItem> {
         Glide.with(getContext())
                 .load(data.images.get(0))
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .placeholder(R.drawable.content_no_image)
+                .error(R.drawable.content_no_image)
                 .into(ivItemImage);
         tvItemTitle.setText(data.title);
     }

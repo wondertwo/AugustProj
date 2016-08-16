@@ -55,8 +55,8 @@ public class ZhihuFragment extends BaseFragment {
     private int loadCount = -1;
 
 
-    /*@Bind(R.id.fragment_zhihu_refresh)
-    SwipeRefreshLayout mRefreshLayout;*/
+    @Bind(R.id.fragment_zhihu_refresh)
+    SwipeRefreshLayout mRefreshLayout;
     @Bind(R.id.fragment_zhihu_recycler)
     EasyRecyclerView mRecyclerView;
 
@@ -65,6 +65,11 @@ public class ZhihuFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // 初始化当前日期
+        initCurrentDate();
+    }
+
+    private void initCurrentDate() {
         // 获取当前日期的前一天
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH,-1);
@@ -83,6 +88,8 @@ public class ZhihuFragment extends BaseFragment {
 
         initRecyclerView();
 
+        initRefreshLayout();
+
         return view;
     }
 
@@ -100,7 +107,6 @@ public class ZhihuFragment extends BaseFragment {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         //设置Adapter
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setRefreshListener(this);
 
         //准备数据
         loadLatestData();
@@ -134,24 +140,6 @@ public class ZhihuFragment extends BaseFragment {
     private void loadLatestData() {
         unSubscribe();
 
-        Observer<List<DailyStoryItem>> observer = new Observer<List<DailyStoryItem>>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onNext(List<DailyStoryItem> zhihuStoryItems) {
-                mAdapter.addAll(zhihuStoryItems);
-                mAdapter.notifyDataSetChanged();
-            }
-        };
-
         subscription = RetrofitClient.getDailyStoryService().getDailyStories()
                 .subscribeOn(Schedulers.io())
                 .map(new Func1<DailyStory, List<DailyStoryItem>>() {
@@ -175,9 +163,45 @@ public class ZhihuFragment extends BaseFragment {
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(observer);
+                .subscribe(new Observer<List<DailyStoryItem>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<DailyStoryItem> zhihuStoryItems) {
+                        mAdapter.addAll(zhihuStoryItems);
+                        mAdapter.notifyDataSetChanged();
+                    }
+                });
 
         Log.e(TAG, "subscribe successfully");
+    }
+
+    private void initRefreshLayout() {
+
+        //设置手指在屏幕上下拉多少距离开始刷新
+        mRefreshLayout.setDistanceToTriggerSync(300);
+
+        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mRefreshLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mAdapter.clear();
+                        loadLatestData();
+                        mRefreshLayout.setRefreshing(false);
+                    }
+                }, 2000);
+            }
+        });
     }
 
     @Override
@@ -185,20 +209,6 @@ public class ZhihuFragment extends BaseFragment {
         super.onDestroy();
         unSubscribe();
     }
-
-    /*@Override
-    public void onRefresh() {
-
-        mRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mRefreshLayout.setRefreshing(false);
-            }
-        });
-
-        mAdapter.clear();
-        loadLatestData();
-    }*/
 
     @Override
     public void onLoadMore() {

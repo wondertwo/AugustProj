@@ -88,7 +88,6 @@ public class ContentActivity extends BaseActivity {
         // 设置title
         mBodyTitle.setText(storyTitle);
 
-
         // 配置 WebView
         configWebViewAttrs();
 
@@ -182,12 +181,9 @@ public class ContentActivity extends BaseActivity {
                         if (content.image != null) {
                             Glide.with(ContentActivity.this).load(content.image)
                                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                                    .centerCrop().into(mHeaderIv);
-                        } else {
-                            mHeaderIv.setImageResource(R.drawable.content_no_image);
-                            mHeaderIv.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                                    .placeholder(R.drawable.content_no_image)
+                                    .into(mHeaderIv);
                         }
-
 
                         /**
                          * 此处坑多，注意怎样组装好 HTML

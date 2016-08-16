@@ -47,7 +47,7 @@ public class MainActivity extends BaseActivity
     @Bind(R.id.navigation_view)
     NavigationView navigationView;
 
-    private Fragment mFragment; //记录Activity当前持有的Fragment
+    private Fragment mFragment = null; //记录Activity当前持有的Fragment
     private int fc = R.id.container_content; //fragment container
 
 
@@ -117,7 +117,7 @@ public class MainActivity extends BaseActivity
         if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.action_abouts) {
-            // ....
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

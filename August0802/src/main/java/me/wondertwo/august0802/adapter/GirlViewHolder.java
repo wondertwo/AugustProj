@@ -29,6 +29,7 @@ public class GirlViewHolder extends BaseViewHolder<GirlItem> {
         Glide.with(getContext())
                 .load(data.url)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .error(R.drawable.glide_load_error)
                 .into(itemPict);
     }
 }

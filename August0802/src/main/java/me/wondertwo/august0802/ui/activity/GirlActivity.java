@@ -42,6 +42,7 @@ public class GirlActivity extends BaseActivity {
 
         Glide.with(this).load(getIntent().getStringExtra("url"))
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .error(R.drawable.glide_load_error)
                 .into(mGirlPhoto);
         mGirlPhoto.setContentDescription(getIntent().getStringExtra("desc"));
 
@@ -64,7 +65,7 @@ public class GirlActivity extends BaseActivity {
         } else if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.action_abouts) {
-            // ....
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
