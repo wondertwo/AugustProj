@@ -37,7 +37,7 @@
 ## Open Libs
 * Retrofit2
 * Butterknife
-* Rxjava+Rxandroid
+* RxJava+RxAndroid
 * OkHttp
 * easyrecyclerview
 * Glide
