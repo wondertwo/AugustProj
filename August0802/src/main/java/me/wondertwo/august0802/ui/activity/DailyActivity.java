@@ -27,7 +27,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.wondertwo.august0802.R;
 import me.wondertwo.august0802.bean.RetrofitClient;
-import me.wondertwo.august0802.bean.zhihu.Content;
+import me.wondertwo.august0802.bean.zhihu.DailyArticle;
+import me.wondertwo.august0802.util.Constants;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -36,17 +37,18 @@ import rx.schedulers.Schedulers;
 /**
  * Created by wondertwo on 2016/8/10.
  */
-public class ContentActivity extends BaseActivity {
+public class DailyActivity extends BaseActivity {
 
 
-    private String TAG = "ContentActivity";
+    private String TAG = "DailyActivity";
 
     protected Subscription mSubscription;
     private AlertDialog mAlertDialog;
 
     private int storyId; // 文章ID
     private String storyTitle; // 文章标题
-    private String shareUrl; // 文章的分享链接
+    private String shareUrl; // 分享链接
+    // private String storyUrl; // 文章链接
 
     // passage comments fields
     private int like_count = 0; //likes
@@ -54,50 +56,44 @@ public class ContentActivity extends BaseActivity {
 
 
 
-    @Bind(R.id.content_web_view)
+    @Bind(R.id.article_web_view)
     WebView mWebView;
-    @Bind(R.id.content_body_title)
+    @Bind(R.id.article_body_title)
     TextView mBodyTitle;
-    @Bind(R.id.content_float_btn)
+    @Bind(R.id.article_float_btn)
     FloatingActionButton mContentFloatBtn;
-    @Bind(R.id.content_tool_btn)
+    @Bind(R.id.article_tool_btn)
     Toolbar mContentToolbar;
-    @Bind(R.id.content_header_iv)
+    @Bind(R.id.article_header_iv)
     ImageView mHeaderIv;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_content_detail);
+        setContentView(R.layout.activity_article_detail);
         ButterKnife.bind(this);
 
         setSupportActionBar(mContentToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        // 显示正在加载提示
-        mAlertDialog = new AlertDialog.Builder(this).create();
-        mAlertDialog.setContentView(getLayoutInflater().inflate(R.layout.dialog_loading_layout, null));
-        mAlertDialog.show();
-
         // 获取传递过来的id/title/image
         Intent intent = getIntent();
         storyId = intent.getIntExtra("story_id", 0);
+        shareUrl = Constants.ZHIHU_DAILY_SHARE_URL + storyId;
         storyTitle = intent.getStringExtra("story_title");
         // 设置title
         mBodyTitle.setText(storyTitle);
 
         // 配置 WebView
         configWebViewAttrs();
-
-
         // 执行网络请求
         executeRequestData(storyId);
 
 
         // 分享按钮事件
-        configFloatingBtn(shareUrl);
+        configFloatingBtn();
 
     }
 
@@ -149,11 +145,11 @@ public class ContentActivity extends BaseActivity {
     private void executeRequestData(int contentId) {
         unSubscribe();
 
-        mSubscription = RetrofitClient.getContentService()
-                .getContent(contentId)
+        mSubscription = RetrofitClient.getDailyArticleService()
+                .getDailyArticles(contentId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Content>() {
+                .subscribe(new Observer<DailyArticle>() {
                     @Override
                     public void onCompleted() {
                         Log.e(TAG, "--------completed-------");
@@ -166,20 +162,17 @@ public class ContentActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onNext(Content content) {
+                    public void onNext(DailyArticle dailyArticle) {
 
-                        /*Log.e(TAG, "title: " + content.title);
-                        Log.e(TAG, "image: " + content.image);
-                        Log.e(TAG, "images: " + content.images);
-                        Log.e(TAG, "id: " + content.id);
-                        Log.e(TAG, "type: " + content.type);
-                        Log.e(TAG, "share_url: " + content.share_url);*/
-
-                        shareUrl = content.share_url;
+                        /*if (dailyArticle.share_url != null) {
+                            shareUrl = dailyArticle.share_url;
+                        } else {
+                            shareUrl = "SORRY，分享链接为空";
+                        }*/
 
                         // 设置页面顶部图片
-                        if (content.image != null) {
-                            Glide.with(ContentActivity.this).load(content.image)
+                        if (dailyArticle.image != null) {
+                            Glide.with(DailyActivity.this).load(dailyArticle.image)
                                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                                     .placeholder(R.drawable.content_no_image)
                                     .into(mHeaderIv);
@@ -188,7 +181,7 @@ public class ContentActivity extends BaseActivity {
                         /**
                          * 此处坑多，注意怎样组装好 HTML
                          */
-                        if (content.body != null) {
+                        if (dailyArticle.body != null) {
 
                             // HTML头部，其中 <link href="file:///android_asset/zhihu_master.css" type="text/css" rel="stylesheet"/>
                             // 指向CSS文件所在目录，这里加载应用本地CSS文件，CSS文件已提前下载好存放在在项目的 /main/assets/目录下
@@ -198,7 +191,7 @@ public class ContentActivity extends BaseActivity {
 
                             // body中替换掉img-place-holder div 可以去除网页中div所占的区域
                             // 否则整个网页的头部将会出现一部分的空白区域
-                            String body = content.body.replace("<div class=\"img-place-holder\">", "")
+                            String body = dailyArticle.body.replace("<div class=\"img-place-holder\">", "")
                                     .replace("<div class=\"headline\">", "");
 
                             // 组装成一个完整的 HTML 页面
@@ -210,15 +203,10 @@ public class ContentActivity extends BaseActivity {
                         } else {
 
                             // 若 body 为空，share_url一般不为空，从share_url加载页面
-                            mWebView.loadUrl(content.share_url);
+                            mWebView.loadUrl(dailyArticle.share_url);
                             mHeaderIv.setImageResource(R.drawable.content_no_image);
                             mHeaderIv.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-                        }
-
-                        // 关闭加载进度条
-                        if (mAlertDialog.isShowing()) {
-                            mAlertDialog.dismiss();
                         }
                     }
                 });
@@ -227,13 +215,13 @@ public class ContentActivity extends BaseActivity {
 
 
     // 悬浮按钮点击事件，文章分享
-    private void configFloatingBtn(final String shareUrl) {
+    private void configFloatingBtn() {
         mContentFloatBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
                     Intent shareIntent = new Intent().setAction(Intent.ACTION_SEND).setType("text/plain");
-                    String shareText = storyTitle + " " +  shareUrl  + getString(R.string.share_message);
+                    String shareText = storyTitle + " " + shareUrl + " " + getString(R.string.share_message);
                     shareIntent.putExtra(Intent.EXTRA_TEXT,shareText);
                     startActivity(Intent.createChooser(shareIntent,getString(R.string.share_to)));
                 } catch (android.content.ActivityNotFoundException ex){
@@ -273,7 +261,7 @@ public class ContentActivity extends BaseActivity {
 
         } else if (id == R.id.action_open_in_browser) {
             // 在浏览器中打开
-            startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse("http://news-at.zhihu.com/api/4/news/" + storyId)));
+            startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(shareUrl)));
             return true;
         }
 
@@ -316,12 +304,12 @@ public class ContentActivity extends BaseActivity {
 //    private void prepareContentData(int id) {
 //        unSubscribe();
 //
-//        mSubscription = RetrofitClient.getContentService()
-//                .getContent(id)
+//        mSubscription = RetrofitClient.getDailyArticleService()
+//                .getDailyArticles(id)
 //                .subscribeOn(Schedulers.io())
-//                .map(new Func1<Content, ContentItem>() {
+//                .map(new Func1<DailyArticle, ContentItem>() {
 //                    @Override
-//                    public ContentItem call(Content content) {
+//                    public ContentItem call(DailyArticle content) {
 //                        ContentItem item = new ContentItem();
 //
 //                        item.title = content.title;
@@ -374,13 +362,13 @@ public class ContentActivity extends BaseActivity {
 
 
 //通过 map() 转换数据
-//.map(new Func1<Content, List<ContentItem>>(){
+//.map(new Func1<DailyArticle, List<ContentItem>>(){
 //@Override
-//public List<ContentItem>call(Content content){
-//        List<Content.StoryContent>storyContents=content.contents;
+//public List<ContentItem>call(DailyArticle content){
+//        List<DailyArticle.StoryContent>storyContents=content.contents;
 //
 //        List<ContentItem>contentItems=new ArrayList<>(storyContents.size());
-//        for(Content.StoryContent item:storyContents){
+//        for(DailyArticle.StoryContent item:storyContents){
 //        ContentItem contentItem=new ContentItem();
 //
 //        contentItem.title=item.title;

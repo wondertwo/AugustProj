@@ -20,10 +20,16 @@ public class RetrofitClient {
     private static DailyStoryService dailyStoryService;
 
     // 知乎日报文章内容 api
-    private static ContentService contentService;
+    private static DailyArticleService dailyArticleService;
 
     // 知乎日报过往消息 api
     private static DailyBeforeService dailyBeforeService;
+
+    // 果壳精选文章列表 api
+    private static GuokrService guokrService;
+
+    // 果壳精选文章内容 api
+    private static GuokrArticleService guokrArticleService;
 
 
     private static Converter.Factory gsonConverterFactory = GsonConverterFactory.create();
@@ -59,18 +65,18 @@ public class RetrofitClient {
         return dailyStoryService;
     }
 
-    // 封装 ContentService 请求
-    public static ContentService getContentService() {
-        if (contentService == null) {
+    // 封装 DailyArticleService 请求
+    public static DailyArticleService getDailyArticleService() {
+        if (dailyArticleService == null) {
             Retrofit retrofit = new Retrofit.Builder()
                     .client(mClient)
                     .baseUrl(Constants.ZHIHU_NEWS_CONTENT)
                     .addConverterFactory(gsonConverterFactory)
                     .addCallAdapterFactory(rxJavaCallAdapterFactory)
                     .build();
-            contentService = retrofit.create(ContentService.class);
+            dailyArticleService = retrofit.create(DailyArticleService.class);
         }
-        return contentService;
+        return dailyArticleService;
     }
 
     // 封装 DailyBeforeService 请求
@@ -87,5 +93,32 @@ public class RetrofitClient {
         return dailyBeforeService;
     }
 
+    // 封装 GuokrService 请求
+    public static GuokrService getGuokrService() {
+        if (guokrService == null) {
+            Retrofit retrofit = new Retrofit.Builder()
+                    .client(mClient)
+                    .baseUrl(Constants.GUOKR_NEWS_BASE_URL)
+                    .addConverterFactory(gsonConverterFactory)
+                    .addCallAdapterFactory(rxJavaCallAdapterFactory)
+                    .build();
+            guokrService = retrofit.create(GuokrService.class);
+        }
+        return guokrService;
+    }
+
+    // 封装 GuokrArticleService 请求
+    public static GuokrArticleService getGuokrArticleService() {
+        if (guokrArticleService == null) {
+            Retrofit retrofit = new Retrofit.Builder()
+                    .client(mClient)
+                    .baseUrl(Constants.GUOKR_NEWS_BASE_URL)
+                    .addConverterFactory(gsonConverterFactory)
+                    .addCallAdapterFactory(rxJavaCallAdapterFactory)
+                    .build();
+            guokrArticleService = retrofit.create(GuokrArticleService.class);
+        }
+        return guokrArticleService;
+    }
 
 }

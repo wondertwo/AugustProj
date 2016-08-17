@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by wondertwo on 2016/8/10.
  */
-public class Content {
+public class DailyArticle {
 
     @SerializedName("title") public String title;
 

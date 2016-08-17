@@ -8,7 +8,7 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
-    <!--main_toolbar_right content-->
+    <!--main_toolbar_right dailyArticle-->
     <include
         layout="@layout/container_gloable"
         android:layout_width="match_parent"

@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -31,7 +30,7 @@ import me.wondertwo.august0802.adapter.ZhihuAdapter;
 import me.wondertwo.august0802.bean.RetrofitClient;
 import me.wondertwo.august0802.bean.zhihu.DailyStory;
 import me.wondertwo.august0802.bean.zhihu.DailyStoryItem;
-import me.wondertwo.august0802.ui.activity.ContentActivity;
+import me.wondertwo.august0802.ui.activity.DailyActivity;
 import me.wondertwo.august0802.util.Divider;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -55,9 +54,9 @@ public class ZhihuFragment extends BaseFragment {
     private int loadCount = -1;
 
 
-    @Bind(R.id.fragment_zhihu_refresh)
+    @Bind(R.id.fragment_list_refresh)
     SwipeRefreshLayout mRefreshLayout;
-    @Bind(R.id.fragment_zhihu_recycler)
+    @Bind(R.id.fragment_list_recycler)
     EasyRecyclerView mRecyclerView;
 
 
@@ -83,7 +82,7 @@ public class ZhihuFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_zhihu, container, false);
+        View view = inflater.inflate(R.layout.fragment_list, container, false);
         ButterKnife.bind(this, view);
 
         initRecyclerView();
@@ -126,12 +125,11 @@ public class ZhihuFragment extends BaseFragment {
             @Override
             public void onItemClick(int position) {
                 // handle the item click events
-                Intent intent = new Intent(getActivity(), ContentActivity.class);
+                Intent intent = new Intent(getActivity(), DailyActivity.class);
                 intent.putExtra("story_id", adapter.getItem(position).id); //传递当前点击item的id
                 intent.putExtra("story_title", adapter.getItem(position).title);
                 intent.putExtra("story_image", adapter.getItem(position).images.get(0));
-                startActivity(intent,
-                        ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
             }
         });
     }
@@ -204,20 +202,6 @@ public class ZhihuFragment extends BaseFragment {
         });
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        unSubscribe();
-    }
-
-    @Override
-    public void onLoadMore() {
-
-        loadBeforeData();
-
-        super.onLoadMore();
-    }
-
     // 加载往期新闻数据
     private void loadBeforeData() {
 
@@ -263,11 +247,7 @@ public class ZhihuFragment extends BaseFragment {
                         loadCount++;
                     }
                 });
-
-
-
     }
-
 
     // long类型 date 转换为 String 类型
     private String parseDateToString(long currentDate) {
@@ -277,6 +257,20 @@ public class ZhihuFragment extends BaseFragment {
         String dateStr = format.format(date);
 
         return dateStr;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unSubscribe();
+    }
+
+    @Override
+    public void onLoadMore() {
+
+        loadBeforeData();
+
+        super.onLoadMore();
     }
 
 

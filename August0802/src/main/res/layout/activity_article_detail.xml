@@ -2,21 +2,19 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context=".ui.activity.ContentActivity">
+    android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/content_app_bar"
+        android:id="@+id/article_app_bar"
         android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="240dp"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/content_collapsing"
+            android:id="@+id/article_collapsing"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
@@ -40,7 +38,7 @@
                     android:background="@drawable/shadow_layer_top" />
 
                 <ImageView
-                    android:id="@+id/content_header_iv"
+                    android:id="@+id/article_header_iv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:adjustViewBounds="true"
@@ -56,7 +54,7 @@
             </RelativeLayout>
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/content_tool_btn"
+                android:id="@+id/article_tool_btn"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
@@ -80,7 +78,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/content_body_title"
+                android:id="@+id/article_body_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorAccent"
@@ -92,7 +90,7 @@
                 android:visibility="visible" />
 
             <WebView
-                android:id="@+id/content_web_view"
+                android:id="@+id/article_web_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="60dp"
@@ -103,11 +101,11 @@
     </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/content_float_btn"
+        android:id="@+id/article_float_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
-        app:layout_anchor="@id/content_app_bar"
+        app:layout_anchor="@id/article_app_bar"
         app:layout_anchorGravity="bottom|end"
         android:src="@drawable/ic_menu_share" />
 

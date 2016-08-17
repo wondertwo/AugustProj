@@ -11,9 +11,9 @@
             android:icon="@drawable/drawer_guokr"
             android:title="果壳精选" />
         <item
-            android:id="@+id/drawer_theme"
-            android:icon="@drawable/drawer_theme"
-            android:title="主题日报" />
+            android:id="@+id/drawer_douban"
+            android:icon="@drawable/drawer_douban"
+            android:title="豆瓣一刻" />
         <item
             android:id="@+id/drawer_girl"
             android:icon="@drawable/drawer_girl"

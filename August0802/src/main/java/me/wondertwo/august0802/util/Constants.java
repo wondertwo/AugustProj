@@ -20,7 +20,7 @@ public class Constants {
      */
 
     // 知乎日报base url,将文章id拼接值base url之后即可
-    public static final String ZHIHU_DAILY_BASE_URL = "http://news-at.zhihu.com/story/";
+    public static final String ZHIHU_DAILY_SHARE_URL = "http://daily.zhihu.com/story/";
 
     // 获取闪屏页面启动图像，start_image后面为图像分辨率
     public static final String ZHIHU_APP_START_IMAGE = "http://news-at.zhihu.com/api/4/start-images/1080*1776";
@@ -57,9 +57,6 @@ public class Constants {
     public static final String ZHIHU_THEME_CONTENT = "http://news-at.zhihu.com/api/4/theme/";
 
 
-
-
-
     // 热门消息。请注意！此 API 仍可访问，但是其内容未出现在最新的『知乎日报』 App 中。
     public static final String ZHIHU_HOT_LIST = "http://news-at.zhihu.com/api/3/news/hot";
 
@@ -77,13 +74,11 @@ public class Constants {
 
 
 
-
-
     // 果壳精选 base url
-    public static final String GUOKR_NEWS_BASE_URL = "http://apis.guokr.com/handpick/article.json";
+    public static final String GUOKR_NEWS_BASE_URL = "http://apis.guokr.com/";
 
     // 获取果壳精选的文章列表,通过组合相应的参数成为完整的url
-    public static final String GUOKR_ARTICLES = "http://apis.guokr.com/handpick/article.json?retrieve_type=by_since&category=all&limit=20&ad=1";
+    // public static final String GUOKR_ARTICLES = "http://apis.guokr.com/handpick/article.json?retrieve_type=by_since&category=all&limit=20&ad=1";
 
     // 获取果壳文章的具体信息 V1
     public static final String GUOKR_ARTICLE_LINK_V1 = "http://jingxuan.guokr.com/pick/";
@@ -93,4 +88,14 @@ public class Constants {
 
     // 获取果壳精选的轮播文章列表
     // public static final String GUOKR_HANDPICK_CAROUSEL = "http://apis.guokr.com/flowingboard/item/handpick_carousel.json";
+
+
+    // 豆瓣一刻
+    // 根据日期查询消息列表
+    // eg:https://moment.douban.com/api/stream/date/2016-08-11
+    public static final String DOUBAN_MOMENT = "https://moment.douban.com/api/stream/date/";
+
+    // 获取文章具体内容
+    // eg:https://moment.douban.com/api/post/100484
+    public static final String DOUBAN_ARTICLE_DETAIL = "https://moment.douban.com/api/post/";
 }

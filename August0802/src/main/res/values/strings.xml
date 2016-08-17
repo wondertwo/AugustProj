@@ -16,7 +16,7 @@
     <!--RecyclerView on load more-->
     <string name="dialog_loading">玩命加载中</string>
 
-    <!--ContentActivity-->
+    <!--DailyActivity-->
     <string name="action_comments">获取评论数量</string>
     <string name="action_open_in_browser">在浏览器打开</string>
     <string name="share_message">分享自 悦乎 </string>

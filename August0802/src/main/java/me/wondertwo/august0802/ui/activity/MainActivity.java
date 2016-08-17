@@ -26,6 +26,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.wondertwo.august0802.R;
 import me.wondertwo.august0802.ui.fragment.GirlFragment;
+import me.wondertwo.august0802.ui.fragment.GuokrFragment;
 import me.wondertwo.august0802.ui.fragment.ZhihuFragment;
 import me.wondertwo.august0802.util.NetStateUtils;
 import me.wondertwo.august0802.util.StatusBarUtil;
@@ -35,6 +36,7 @@ public class MainActivity extends BaseActivity
 
     private static final String FRAGMENT_ZHIHU = "ZhihuFragment";
     private static final String FRAGMENT_GIRL = "GirlFragment";
+    private static final String FRAGMENT_GUOKR = "FragmentGuokr";
 
     @Bind(R.id.drawer_layout)
     DrawerLayout drawer;
@@ -49,7 +51,6 @@ public class MainActivity extends BaseActivity
 
     private Fragment mFragment = null; //记录Activity当前持有的Fragment
     private int fc = R.id.container_content; //fragment container
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,23 +145,16 @@ public class MainActivity extends BaseActivity
             mFragment = fragment;
             toolbar.setTitle("知乎日报");
         } else if (id == R.id.drawer_guokr) {
-            new AlertDialog.Builder(this)
-                    .setMessage("此模块预计很快上线，请稍候喔 ")
-                    .setPositiveButton("我知道了", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
-                    .setNegativeButton("好的好的", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
-                    .create().show();
+            Fragment fragment = fm.findFragmentByTag(FRAGMENT_GUOKR);
+            if (fragment != null) {
+                ft.hide(mFragment).show(fragment).commit();
+            } else {
+                fragment = new GuokrFragment();
+                ft.hide(mFragment).add(fc, fragment, FRAGMENT_GUOKR).commit();
+            }
+            mFragment = fragment;
             toolbar.setTitle("果壳精选");
-        } else if (id == R.id.drawer_theme) {
+        } else if (id == R.id.drawer_douban) {
             new AlertDialog.Builder(this)
                     .setMessage("此模块预计很快上线，请稍候喔 ")
                     .setPositiveButton("我知道了", new DialogInterface.OnClickListener() {

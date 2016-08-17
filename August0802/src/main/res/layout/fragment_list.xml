@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_zhihu_refresh"
+    android:id="@+id/fragment_list_refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -17,9 +17,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />-->
 
-    <!--the content recycler view-->
+    <!--the dailyArticle recycler view-->
     <com.jude.easyrecyclerview.EasyRecyclerView
-        android:id="@+id/fragment_zhihu_recycler"
+        android:id="@+id/fragment_list_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </com.jude.easyrecyclerview.EasyRecyclerView>

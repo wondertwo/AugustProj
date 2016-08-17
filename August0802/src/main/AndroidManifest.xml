@@ -26,7 +26,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.ContentActivity"
+            android:name=".ui.activity.DailyActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ui.activity.GuokrActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activity.GirlActivity"
