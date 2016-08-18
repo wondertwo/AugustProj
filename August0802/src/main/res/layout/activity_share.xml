@@ -28,6 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/yuehu_share_dl"
+        android:padding="16dp"
         android:layout_centerInParent="true"
         android:scaleType="fitCenter" />
 
@@ -39,7 +40,7 @@
         android:gravity="center_horizontal"
         android:textColor="@android:color/darker_gray"
         android:textSize="12sp"
-        android:text="截图或点击右上角保存\n以扫码下载体验"
+        android:text="截图或点击右上角分享至微信\n或保存本地以扫码下载体验"
         android:maxLines="2" />
 
 </RelativeLayout>

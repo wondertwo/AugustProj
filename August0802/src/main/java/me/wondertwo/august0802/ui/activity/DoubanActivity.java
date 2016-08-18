@@ -70,7 +70,7 @@ public class DoubanActivity extends BaseActivity {
 
         // 获取传递过来的id/title/image
         Intent intent = getIntent();
-        doubanId = intent.getIntExtra("douban_id", 142839);
+        doubanId = intent.getLongExtra("douban_id", 142839);
         shareUrl = intent.getStringExtra("douban_short_url");
         doubanTitle = intent.getStringExtra("douban_title");
         // 设置页面标题和顶部图片
@@ -164,8 +164,6 @@ public class DoubanActivity extends BaseActivity {
                         if (doubanArticle.content != null) {
 
                             String content = doubanArticle.content;
-                            String useless = "<p id=\\\"title\\\">\\u591a\\u56fe\\uff5c\\u611f\\u53d7\\u300a\\u5c0f\\u68ee\\u6797\\u300b\\u4e00\\u822c\\u7684\\u7530\\u56ed\\u751f\\u6d3b</p>\\n";
-                            content = content.replace(useless, ""); // 替换掉无用部分
 
                             List<ArticlePhotos> photos = doubanArticle.photos;
 

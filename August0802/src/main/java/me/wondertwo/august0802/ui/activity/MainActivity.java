@@ -142,6 +142,7 @@ public class MainActivity extends BaseActivity
             }
             mFragment = fragment;
             toolbar.setTitle("知乎小报");
+            fab.setVisibility(View.VISIBLE);
         } else if (id == R.id.drawer_guokr) {
             Fragment fragment = fm.findFragmentByTag(FRAGMENT_GUOKR);
             if (fragment != null) {
@@ -152,6 +153,7 @@ public class MainActivity extends BaseActivity
             }
             mFragment = fragment;
             toolbar.setTitle("果壳精选");
+            fab.setVisibility(View.GONE);
         } else if (id == R.id.drawer_douban) {
             Fragment fragment = fm.findFragmentByTag(FRAGMENT_DOUBAN);
             if (fragment != null) {
@@ -162,6 +164,7 @@ public class MainActivity extends BaseActivity
             }
             mFragment = fragment;
             toolbar.setTitle("豆瓣一刻");
+            fab.setVisibility(View.VISIBLE);
         } else if (id == R.id.drawer_girl) {
             Fragment fragment = fm.findFragmentByTag(FRAGMENT_GIRL);
             if (fragment != null) {
@@ -172,6 +175,7 @@ public class MainActivity extends BaseActivity
             }
             mFragment = fragment;
             toolbar.setTitle("漂亮妹纸");
+            fab.setVisibility(View.GONE);
         } else if (id == R.id.drawer_share) {
             startActivity(new Intent(this, ShareActivity.class));
         } else if (id == R.id.drawer_about) {
