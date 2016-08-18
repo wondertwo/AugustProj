@@ -11,8 +11,6 @@ public class GuokrItem {
     public String headline_img_tb; // 用于文章列表页小图
     public String headline_img; // 用于文章内容页大图
 
-    public String link;
-    public String author;
     public String summary;
 
 }

@@ -28,13 +28,20 @@
         <activity
             android:name=".ui.activity.DailyActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ui.activity.GuokrActivity"
+        <activity
+            android:name=".ui.activity.GuokrActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.activity.DoubanActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activity.GirlActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activity.AboutActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.activity.ShareActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
 

@@ -11,6 +11,7 @@ import android.view.View;
  * GitHub: https://github.com/laobie
  */
 public class StatusBarView extends View {
+
     public StatusBarView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
@@ -18,4 +19,5 @@ public class StatusBarView extends View {
     public StatusBarView(Context context) {
         super(context);
     }
+
 }

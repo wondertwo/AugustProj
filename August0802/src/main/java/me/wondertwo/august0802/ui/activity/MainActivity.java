@@ -1,6 +1,5 @@
 package me.wondertwo.august0802.ui.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,7 +9,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -83,8 +81,6 @@ public class MainActivity extends BaseActivity
         if (!NetStateUtils.isNetworkAvailable(this)) {
             Snackbar.make(coordinator, R.string.please_check_network, Snackbar.LENGTH_LONG).show();
         } else {
-            toolbar.setTitle("知乎日报");
-
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
             if (mFragment != null) {
@@ -145,7 +141,7 @@ public class MainActivity extends BaseActivity
                 ft.hide(mFragment).add(fc, fragment, FRAGMENT_ZHIHU).commit();
             }
             mFragment = fragment;
-            toolbar.setTitle("知乎日报");
+            toolbar.setTitle("知乎小报");
         } else if (id == R.id.drawer_guokr) {
             Fragment fragment = fm.findFragmentByTag(FRAGMENT_GUOKR);
             if (fragment != null) {
@@ -177,22 +173,7 @@ public class MainActivity extends BaseActivity
             mFragment = fragment;
             toolbar.setTitle("漂亮妹纸");
         } else if (id == R.id.drawer_share) {
-            new AlertDialog.Builder(this)
-                    .setMessage("此模块预计很快上线，请稍候喔 ")
-                    .setPositiveButton("我知道了", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
-                    .setNegativeButton("好的好的", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
-                    .create().show();
-            toolbar.setTitle("分享");
+            startActivity(new Intent(this, ShareActivity.class));
         } else if (id == R.id.drawer_about) {
             startActivity(new Intent(this, AboutActivity.class));
         }

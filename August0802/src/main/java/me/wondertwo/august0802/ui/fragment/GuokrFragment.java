@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,6 @@ import me.wondertwo.august0802.adapter.GuokrAdapter;
 import me.wondertwo.august0802.bean.RetrofitClient;
 import me.wondertwo.august0802.bean.guokr.Guokr;
 import me.wondertwo.august0802.bean.guokr.GuokrItem;
-import me.wondertwo.august0802.ui.activity.DailyActivity;
 import me.wondertwo.august0802.ui.activity.GuokrActivity;
 import me.wondertwo.august0802.util.Divider;
 import rx.Observer;
@@ -103,6 +103,7 @@ public class GuokrFragment extends BaseFragment {
     private void loadGuokrData() {
         unSubscribe();
 
+        // 默认加载最新的100条数据
         subscription = RetrofitClient.getGuokrService().getGuokrs("by_since", "all", 100, 1)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -181,5 +182,20 @@ public class GuokrFragment extends BaseFragment {
         unSubscribe();
     }
 
+
+    /**
+     * 重写以下两个方法，添加友盟统计
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart(TAG);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd(TAG);
+    }
 
 }

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 import com.umeng.analytics.MobclickAgent;
 
@@ -15,23 +16,23 @@ import me.wondertwo.august0802.R;
 import me.wondertwo.august0802.util.StatusBarUtil;
 
 /**
- * Created by wondertwo on 2016/8/12.
+ * Created by wondertwo on 2016/8/18.
  */
-public class AboutActivity extends BaseActivity {
+public class ShareActivity extends BaseActivity {
 
-
-    @Bind(R.id.about_app_tool_btn)
-    Toolbar toolbar;
+    @Bind(R.id.share_tool_btn)
+    Toolbar mToolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
+        setContentView(R.layout.activity_share);
         StatusBarUtil.setColor(this, Color.parseColor("#373B3E"), 0);
         ButterKnife.bind(this);
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 
     @Override
@@ -68,6 +69,7 @@ public class AboutActivity extends BaseActivity {
         finish();
     }
 
+
     /**
      * 重写以下两个方法，添加友盟统计
      */
@@ -82,4 +84,5 @@ public class AboutActivity extends BaseActivity {
         super.onPause();
         MobclickAgent.onPause(this);
     }
+
 }

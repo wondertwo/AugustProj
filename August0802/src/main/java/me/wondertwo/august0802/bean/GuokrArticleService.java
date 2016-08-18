@@ -2,7 +2,6 @@ package me.wondertwo.august0802.bean;
 
 import me.wondertwo.august0802.bean.guokr.GuokrArticle;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 

@@ -68,13 +68,14 @@ public class ZhihuFragment extends BaseFragment {
     }
 
     private void initCurrentDate() {
-        // 获取当前日期的前一天
+        // 获取当前日期的前一天，比如现在是20160818，则得到20160817
         Calendar calendar = Calendar.getInstance();
+        // 把当前月份-1，得到20160717
         calendar.add(Calendar.DAY_OF_MONTH,-1);
 
-        YEAR = calendar.get(Calendar.YEAR);
-        MONTH = calendar.get(Calendar.MONTH);
-        DAY = calendar.get(Calendar.DAY_OF_MONTH);
+        YEAR = calendar.get(Calendar.YEAR);  // 2016
+        MONTH = calendar.get(Calendar.MONTH); // 07
+        DAY = calendar.get(Calendar.DAY_OF_MONTH); // 17
     }
 
     @Nullable

@@ -1,13 +1,11 @@
 package me.wondertwo.august0802.ui.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -30,26 +28,24 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.wondertwo.august0802.R;
 import me.wondertwo.august0802.bean.RetrofitClient;
-import me.wondertwo.august0802.bean.guokr.GuokrArticle;
-import me.wondertwo.august0802.util.Constants;
+import me.wondertwo.august0802.bean.douban.ArticlePhotos;
+import me.wondertwo.august0802.bean.douban.DoubanArticle;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by wondertwo on 2016/8/17.
+ * Created by wondertwo on 2016/8/18.
  */
-public class GuokrActivity extends BaseActivity {
+public class DoubanActivity extends BaseActivity {
 
-    private String TAG = "GuokrActivity";
-
+    private String TAG = "DoubanActivity";
     protected Subscription mSubscription;
 
-    private int articleId; // 文章ID
-    private String articleTitle; // 文章标题
-    private String articleUrl; // 文章链接
-    private String articleImage; // 顶部图片
+    private long doubanId; // 文章ID
+    private String doubanTitle; // 文章标题
+    private String shareUrl; // 分享链接
 
     @Bind(R.id.article_web_view)
     WebView mWebView;
@@ -66,33 +62,34 @@ public class GuokrActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_detail);
-
         ButterKnife.bind(this);
 
         setSupportActionBar(mContentToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
         // 获取传递过来的id/title/image
         Intent intent = getIntent();
-        articleImage = intent.getStringExtra("article_image");
-        articleTitle = intent.getStringExtra("article_title");
-        articleId = intent.getIntExtra("article_id", 20256);
-        articleUrl = Constants.GUOKR_ARTICLE_LINK_V2 + articleId;
-
-        // 设置页面内容
-        Glide.with(this).load(articleImage)
+        doubanId = intent.getIntExtra("douban_id", 142839);
+        shareUrl = intent.getStringExtra("douban_short_url");
+        doubanTitle = intent.getStringExtra("douban_title");
+        // 设置页面标题和顶部图片
+        mBodyTitle.setText(doubanTitle);
+        Glide.with(this).load(intent.getStringExtra("douban_image"))
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .placeholder(R.drawable.content_no_image)
                 .into(mHeaderIv);
-        mBodyTitle.setText(articleTitle);
+
 
         // 配置 WebView
         configWebViewAttrs();
-        // mWebView.loadUrl(articleUrl); // 懒人的做法
-        executeRequestData(articleId);
+        // 执行网络请求
+        executeRequestData(doubanId);
+
 
         // 分享按钮事件
         configFloatingBtn();
+
     }
 
     // 设置 WebView 相关属性
@@ -110,6 +107,7 @@ public class GuokrActivity extends BaseActivity {
         mWebView.getSettings().setDomStorageEnabled(true);
         //开启application Cache功能
         mWebView.getSettings().setAppCacheEnabled(false);
+
 
         //设置不调用第三方浏览器即可进行页面反应
         mWebView.setWebViewClient(new WebViewClient() {
@@ -137,14 +135,15 @@ public class GuokrActivity extends BaseActivity {
         });
     }
 
-
-    private void executeRequestData(int id) {
+    // 执行网络请求
+    private void executeRequestData(long contentId) {
         unSubscribe();
 
-        mSubscription = RetrofitClient.getGuokrArticleService().getGuokrArticles(id)
+        mSubscription = RetrofitClient.getDoubanArticleService()
+                .getDoubanArticles(contentId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<GuokrArticle>() {
+                .subscribe(new Observer<DoubanArticle>() {
                     @Override
                     public void onCompleted() {
                         Log.e(TAG, "--------completed-------");
@@ -157,49 +156,49 @@ public class GuokrActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onNext(GuokrArticle guokrArticle) {
-                        if (guokrArticle.response_ok) {
+                    public void onNext(DoubanArticle doubanArticle) {
 
-                            List<GuokrArticle.GuokrArticleResult> result = guokrArticle.response_result;
-                            GuokrArticle.GuokrArticleResult article = result.get(0);
+                        /**
+                         * 此处坑多，注意怎样组装好 HTML
+                         */
+                        if (doubanArticle.content != null) {
 
-                            if (article.content != null) {
-                                // HTML头部
-                                String html_header = "<html><head><link href=\"file:///android_asset/guokr_master.css\" type=\"text/css\" rel=\"stylesheet\"/></head><body>"
-                                        + "<div class=\"article\" id=\"contentMain\"><div class=\"content\" id=\"articleContent\">";
-                                // HTML尾部
-                                String html_footer = "</div></div><script>var ukey = null;</script><script src=\"file:///android_asset/guokr.base.js\"></script>"
-                                        + "<script src=\"file:///android_asset/guokr.articleInline.js\"></script></body></html>";
+                            String content = doubanArticle.content;
+                            String useless = "<p id=\\\"title\\\">\\u591a\\u56fe\\uff5c\\u611f\\u53d7\\u300a\\u5c0f\\u68ee\\u6797\\u300b\\u4e00\\u822c\\u7684\\u7530\\u56ed\\u751f\\u6d3b</p>\\n";
+                            content = content.replace(useless, ""); // 替换掉无用部分
 
-                                // 组装成一个完整的 HTML 页面
-                                String html = html_header + article.content + html_footer;
+                            List<ArticlePhotos> photos = doubanArticle.photos;
 
-                                // WebView 加载 HTML 页面
-                                mWebView.loadDataWithBaseURL("file:///android_assets", html, "text/html", "UTF-8", null);
-
-                            } else {
-                                mWebView.loadUrl(articleUrl);
-                                Log.e(TAG, "load page with the url");
+                            String tagName, str1, str2;
+                            for (ArticlePhotos photo : photos) {
+                                tagName = photo.tag_name;
+                                str1 = "<img id=\"" + tagName + "\" />";
+                                str2 = "<img id=\"" + tagName + "\" " + "src=\"" + photo.medium.url + "\"/>";
+                                content = content.replace(str1, str2);
                             }
+
+                            // HTML头部，其中 <link href="file:///android_asset/douban_master.css" type="text/css" rel="stylesheet"/>
+                            // 指向CSS文件所在目录，这里加载应用本地CSS文件，CSS文件已提前下载好存放在在项目的 /main/assets/目录下
+                            String html_header = "<html><head><meta charset=\\\"utf-8\\\" /><link href=\"file:///android_asset/douban_master.css\" type=\"text/css\" rel=\"stylesheet\"/></head>"
+                                    + "<body>"+ "<div class=\"container bs-docs-container\"><div class=\"post-container\">" ;
+                            // HTML尾部
+                            String html_footer = "</div></div></body></html>";
+
+                            // 组装成一个完整的 HTML 页面
+                            String html = html_header + content + html_footer;
+
+                            // WebView 加载 HTML 页面
+                            mWebView.loadDataWithBaseURL("file:///android_assets", html, "text/html", "UTF-8", null);
+
                         } else {
-                            new AlertDialog.Builder(GuokrActivity.this)
-                                    .setMessage("网络请求结果出了一点问题，请重试喔 ")
-                                    .setPositiveButton("我知道了", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-                                        }
-                                    })
-                                    .setNegativeButton("好的好的", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-                                        }
-                                    }).create().show();
+
+                            mWebView.loadUrl(shareUrl); // 从分享链接加载
+
                         }
                     }
                 });
     }
+
 
 
     // 悬浮按钮点击事件，文章分享
@@ -209,15 +208,16 @@ public class GuokrActivity extends BaseActivity {
             public void onClick(View v) {
                 try {
                     Intent shareIntent = new Intent().setAction(Intent.ACTION_SEND).setType("text/plain");
-                    String shareText = articleTitle + " " + articleUrl + " " + getString(R.string.share_message);
+                    String shareText = doubanTitle + " " + shareUrl + " " + getString(R.string.share_message);
                     shareIntent.putExtra(Intent.EXTRA_TEXT,shareText);
                     startActivity(Intent.createChooser(shareIntent,getString(R.string.share_to)));
-                } catch (android.content.ActivityNotFoundException ex) {
+                } catch (android.content.ActivityNotFoundException ex){
                     Snackbar.make(mContentFloatBtn , R.string.wrong_process, Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
     }
+
 
     @Override
     public void onBackPressed() {
@@ -248,7 +248,7 @@ public class GuokrActivity extends BaseActivity {
 
         } else if (id == R.id.action_open_in_browser) {
             // 在浏览器中打开
-            startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(articleUrl)));
+            startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(shareUrl)));
             return true;
         }
 
@@ -282,5 +282,4 @@ public class GuokrActivity extends BaseActivity {
         super.onPause();
         MobclickAgent.onPause(this);
     }
-
 }

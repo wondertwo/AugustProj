@@ -9,8 +9,6 @@ import java.util.List;
  */
 public class DoubanToday {
 
-    public @SerializedName("total") int total;
-
     public @SerializedName("date") String date;
 
     public @SerializedName("posts") List<DoubanPost> posts;

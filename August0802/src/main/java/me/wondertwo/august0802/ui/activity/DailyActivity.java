@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -39,11 +38,9 @@ import rx.schedulers.Schedulers;
  */
 public class DailyActivity extends BaseActivity {
 
-
     private String TAG = "DailyActivity";
 
     protected Subscription mSubscription;
-    private AlertDialog mAlertDialog;
 
     private int storyId; // 文章ID
     private String storyTitle; // 文章标题
@@ -51,10 +48,8 @@ public class DailyActivity extends BaseActivity {
     // private String storyUrl; // 文章链接
 
     // passage comments fields
-    private int like_count = 0; //likes
-    private int comment_count = 0; //comments
-
-
+    // private int like_count = 0; //likes
+    // private int comment_count = 0; //comments
 
     @Bind(R.id.article_web_view)
     WebView mWebView;
@@ -171,12 +166,10 @@ public class DailyActivity extends BaseActivity {
                         }*/
 
                         // 设置页面顶部图片
-                        if (dailyArticle.image != null) {
-                            Glide.with(DailyActivity.this).load(dailyArticle.image)
-                                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                                    .placeholder(R.drawable.content_no_image)
-                                    .into(mHeaderIv);
-                        }
+                        Glide.with(DailyActivity.this).load(dailyArticle.image)
+                                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                                .placeholder(R.drawable.content_no_image)
+                                .into(mHeaderIv);
 
                         /**
                          * 此处坑多，注意怎样组装好 HTML

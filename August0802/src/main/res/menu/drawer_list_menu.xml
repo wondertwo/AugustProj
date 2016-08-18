@@ -5,7 +5,7 @@
         <item
             android:id="@+id/drawer_zhihu"
             android:icon="@drawable/drawer_zhihu"
-            android:title="知乎日报" />
+            android:title="知乎小报" />
         <item
             android:id="@+id/drawer_guokr"
             android:icon="@drawable/drawer_guokr"

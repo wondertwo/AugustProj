@@ -1,5 +1,7 @@
 package me.wondertwo.august0802.ui.fragment;
 
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -11,14 +13,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.gson.stream.JsonReader;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
+import com.umeng.analytics.MobclickAgent;
 
-import java.io.IOException;
-import java.io.StringReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -26,14 +28,13 @@ import butterknife.ButterKnife;
 import me.wondertwo.august0802.R;
 import me.wondertwo.august0802.adapter.DoubanAdapter;
 import me.wondertwo.august0802.bean.RetrofitClient;
+import me.wondertwo.august0802.bean.douban.DoubanItem;
 import me.wondertwo.august0802.bean.douban.DoubanPost;
 import me.wondertwo.august0802.bean.douban.DoubanToday;
-import me.wondertwo.august0802.bean.douban.DoubanItem;
-import me.wondertwo.august0802.bean.douban.PostThumbs;
+import me.wondertwo.august0802.ui.activity.DoubanActivity;
 import me.wondertwo.august0802.util.Divider;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -44,12 +45,13 @@ public class DoubanFragment extends BaseFragment {
     private String TAG = "DoubanFragment";
     private Handler mHandler = new Handler();
     private DoubanAdapter mAdapter;
-    private String mDate; // 当前日期
-    // 记录当前加载历史消息的次数
-    private int loadCount = -1;
+
+    private SimpleDateFormat format;
+    private String mCurrentDate; // 当前日期，豆瓣一刻上线日期2014-05-12
     private int YEAR = 0;
     private int MONTH = 0;
     private int DAY = 0;
+    private int loadCount = 1; // 记录加载次数
 
     @Bind(R.id.fragment_list_refresh)
     SwipeRefreshLayout mRefreshLayout;
@@ -65,12 +67,19 @@ public class DoubanFragment extends BaseFragment {
     }
 
     private void initCurrentDate() {
-        // 获取当前日期
+
+        format = new SimpleDateFormat("yyyy-MM-dd"); // 定义日期格式
+
+        // 日历日期：即当前日期前一月的今天，比如今天是20160818，则得到20160718
         Calendar calendar = Calendar.getInstance();
-        YEAR = calendar.get(Calendar.YEAR);
-        MONTH = calendar.get(Calendar.MONTH);
-        DAY = calendar.get(Calendar.DAY_OF_MONTH);
-        mDate = "" + YEAR + "-" + MONTH + "-" + DAY;
+        YEAR = calendar.get(Calendar.YEAR);  // 2016
+        MONTH = calendar.get(Calendar.MONTH); // 07
+        DAY = calendar.get(Calendar.DAY_OF_MONTH); // 18
+
+        // 得到当前日期，并格式化
+        Date d = new Date(YEAR-1900, MONTH, DAY); // 得到2016-08-18
+        mCurrentDate = format.format(d); // 2016-08-18
+
     }
 
     @Nullable
@@ -103,8 +112,28 @@ public class DoubanFragment extends BaseFragment {
         mRecyclerView.setAdapter(mAdapter);
 
         //准备数据
-        loadCurrentData(mDate);
+        loadCurrentData(mCurrentDate);
 
+    }
+
+    private void initRefreshLayout() {
+
+        //设置手指在屏幕上下拉多少距离开始刷新
+        mRefreshLayout.setDistanceToTriggerSync(300);
+
+        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mRefreshLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mAdapter.clear();
+                        loadCurrentData(mCurrentDate);
+                        mRefreshLayout.setRefreshing(false);
+                    }
+                }, 2000);
+            }
+        });
     }
 
     /**
@@ -119,11 +148,12 @@ public class DoubanFragment extends BaseFragment {
             @Override
             public void onItemClick(int position) {
                 // handle the item click events
-                /*Intent intent = new Intent(getActivity(), DailyActivity.class);
-                intent.putExtra("story_id", adapter.getItem(position).id); //传递当前点击item的id
-                intent.putExtra("story_title", adapter.getItem(position).title);
-                intent.putExtra("story_image", adapter.getItem(position).images.get(0));
-                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());*/
+                Intent intent = new Intent(getActivity(), DoubanActivity.class);
+                intent.putExtra("douban_id", adapter.getItem(position).id); //传递当前点击item的id
+                intent.putExtra("douban_title", adapter.getItem(position).title);
+                intent.putExtra("douban_image", adapter.getItem(position).image);
+                intent.putExtra("douban_short_url", adapter.getItem(position).short_url);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
             }
         });
     }
@@ -150,27 +180,30 @@ public class DoubanFragment extends BaseFragment {
                     public void onNext(DoubanToday doubanToday) {
 
                         List<DoubanPost> posts = doubanToday.posts;
-
                         List<DoubanItem> doubanItems = new ArrayList<>(posts.size());
 
                         for (DoubanPost post : posts) {
 
                             DoubanItem item = new DoubanItem();
 
-                            item.id = post.id;
+                            // 列表展示数据
                             item.title = post.title;
-                            item.url = post.url;
-
                             // item.image = ?
-                            if (post.thumbs != null) {
-                                List<PostThumbs> thumbs = post.thumbs;
-                                PostThumbs.ThumbsMedium medium = thumbs.get(0).medium;
-                                item.image = medium.url;
+                            if (!post.thumbs.isEmpty()) {
+                                item.image = post.thumbs.get(0).medium.url;
+                                //Log.e(TAG, "from thumbs: " + item.image);
                             } else if (post.author != null) {
-                                DoubanPost.Author author = post.author;
-                                item.image = author.large_avatar;
-                                Log.e(TAG, item.image);
+                                item.image = post.author.large_avatar;
+                                //Log.e(TAG, "from author: " + item.image);
                             }
+
+                            // 跳转Activity传递数据
+                            item.id = post.id;
+                            item.short_url = post.short_url;
+                            //item.share_pic_url = post.share_pic_url;
+                            //item.like_count = post.like_count;
+                            //item.comments_count = post.comments_count;
+
                             doubanItems.add(item);
                         }
 
@@ -181,28 +214,9 @@ public class DoubanFragment extends BaseFragment {
                 });
     }
 
-    private void initRefreshLayout() {
-
-        //设置手指在屏幕上下拉多少距离开始刷新
-        mRefreshLayout.setDistanceToTriggerSync(300);
-
-        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mRefreshLayout.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mAdapter.clear();
-                        loadCurrentData(mDate);
-                        mRefreshLayout.setRefreshing(false);
-                    }
-                }, 2000);
-            }
-        });
-    }
-
     private void loadBeforeData() {
-        String date = "" + (YEAR-1900) + "-" + MONTH + "-" + (DAY-loadCount);
+        Date d = new Date(YEAR - 1900, MONTH, DAY - loadCount); // 2016-08-17
+        String date = format.format(d);
         loadCurrentData(date);
         loadCount++;
     }
@@ -217,6 +231,22 @@ public class DoubanFragment extends BaseFragment {
     public void onLoadMore() {
         loadBeforeData();
         super.onLoadMore();
+    }
+
+
+    /**
+     * 重写以下两个方法，添加友盟统计
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart(TAG);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd(TAG);
     }
 
 }

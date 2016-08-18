@@ -51,31 +51,25 @@ dependencies {
     compile 'com.android.support:design:23.4.0'
     compile 'com.android.support:recyclerview-v7:23.4.0'
     compile 'com.android.support:cardview-v7:23.4.0'
-    compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.0.8@aar'
-    //TabLayout
-    compile 'com.jude:easyrecyclerview:4.0.6'
+
+    compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.0.8@aar' //TabLayout
+
+    compile 'com.jude:easyrecyclerview:4.0.6' //easyrecyclerview
+
     compile 'com.jakewharton.timber:timber:4.1.2'
-    compile 'com.jakewharton:butterknife:7.0.1'
-    // 黄油刀
-    // compile 'com.google.code.gson:gson:2.6.2'
-    // Gson
-    compile 'com.jakewharton:disklrucache:2.0.2'
-    // 缓存
-    compile 'com.github.bumptech.glide:glide:3.7.0'
-    // 图片加载
-    compile 'io.reactivex:rxandroid:1.1.0'
-    // RxAndroid
-    compile 'io.reactivex:rxjava:1.1.0'
-    // 推荐同时加载RxJava
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    // Retrofit网络处理
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
-    // Retrofit的rx解析库
-    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
-    // Retrofit的gson库
-    compile 'com.squareup.okhttp3:okhttp:3.2.0'
-    // OkHttp3
-    compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
-    // 友盟 SDK
-    compile files('libs/umeng-analytics-v6.0.1.jar')
+    compile 'com.jakewharton:butterknife:7.0.1' // 黄油刀
+
+    compile 'com.jakewharton:disklrucache:2.0.2' // 缓存
+
+    compile 'com.github.bumptech.glide:glide:3.7.0' // 图片加载
+
+    compile 'io.reactivex:rxandroid:1.1.0' // RxAndroid
+    compile 'io.reactivex:rxjava:1.1.0' // 推荐同时加载RxJava
+    compile 'com.squareup.retrofit2:retrofit:2.1.0' // Retrofit网络处理
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0' // Retrofit的rx解析库
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0' // Retrofit的gson库
+
+    compile 'com.squareup.okhttp3:okhttp:3.2.0' // OkHttp3
+
+    compile files('libs/umeng-analytics-v6.0.1.jar') // 友盟 SDK
 }

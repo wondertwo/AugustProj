@@ -15,12 +15,13 @@ public class GuokrArticle {
 
 
     public class GuokrArticleResult {
+
         public int id;
+
         public String title;
 
         public String content;
 
-        public String link_v2;
     }
 
 }
