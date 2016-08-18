@@ -97,5 +97,5 @@ public class Constants {
 
     // 获取文章具体内容
     // eg:https://moment.douban.com/api/post/100484
-    public static final String DOUBAN_ARTICLE_DETAIL = "https://moment.douban.com/api/post/";
+    public static final String DOUBAN_ARTICLE = "https://moment.douban.com/api/post/";
 }

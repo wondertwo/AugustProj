@@ -57,6 +57,8 @@ dependencies {
     compile 'com.jakewharton.timber:timber:4.1.2'
     compile 'com.jakewharton:butterknife:7.0.1'
     // 黄油刀
+    // compile 'com.google.code.gson:gson:2.6.2'
+    // Gson
     compile 'com.jakewharton:disklrucache:2.0.2'
     // 缓存
     compile 'com.github.bumptech.glide:glide:3.7.0'

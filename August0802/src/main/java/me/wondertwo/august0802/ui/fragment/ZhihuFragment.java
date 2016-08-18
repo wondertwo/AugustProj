@@ -53,7 +53,6 @@ public class ZhihuFragment extends BaseFragment {
     // 记录当前加载历史消息的次数
     private int loadCount = -1;
 
-
     @Bind(R.id.fragment_list_refresh)
     SwipeRefreshLayout mRefreshLayout;
     @Bind(R.id.fragment_list_recycler)

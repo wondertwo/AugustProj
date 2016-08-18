@@ -9,12 +9,12 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 
 import me.wondertwo.august0802.R;
-import me.wondertwo.august0802.bean.douban.DoubanTodayItem;
+import me.wondertwo.august0802.bean.douban.DoubanItem;
 
 /**
  * Created by wondertwo on 2016/8/17.
  */
-public class DoubanViewHolder extends BaseViewHolder<DoubanTodayItem> {
+public class DoubanViewHolder extends BaseViewHolder<DoubanItem> {
 
     private ImageView ivItemImage;
     private TextView tvItemTitle;
@@ -26,7 +26,7 @@ public class DoubanViewHolder extends BaseViewHolder<DoubanTodayItem> {
     }
 
     @Override
-    public void setData(DoubanTodayItem data) {
+    public void setData(DoubanItem data) {
         super.setData(data);
         Glide.with(getContext())
                 .load(data.image)

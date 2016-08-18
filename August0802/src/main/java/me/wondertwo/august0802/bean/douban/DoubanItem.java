@@ -3,7 +3,7 @@ package me.wondertwo.august0802.bean.douban;
 /**
  * Created by wondertwo on 2016/8/17.
  */
-public class DoubanTodayItem {
+public class DoubanItem {
 
     public String id; // 文章ID
 
@@ -11,7 +11,7 @@ public class DoubanTodayItem {
 
     public String url; // 分享链接
 
-    public String image;
+    public String image; // 列表显示的图片
 
     public String short_url; // 分享短链接
 
@@ -20,9 +20,5 @@ public class DoubanTodayItem {
     public String like_count; // 喜欢数
 
     public String comments_count; // 评论数
-
-    public String published_time; // 发布时间
-
-    public String created_time; // 创建时间
 
 }

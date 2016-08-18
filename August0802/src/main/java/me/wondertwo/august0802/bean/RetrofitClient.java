@@ -31,6 +31,9 @@ public class RetrofitClient {
     // 果壳精选文章内容 api
     private static GuokrArticleService guokrArticleService;
 
+    // 豆瓣一刻文章列表 api
+    private static DoubanTodayService doubanTodayService;
+
 
     private static Converter.Factory gsonConverterFactory = GsonConverterFactory.create();
     private static CallAdapter.Factory rxJavaCallAdapterFactory = RxJavaCallAdapterFactory.create();
@@ -119,6 +122,20 @@ public class RetrofitClient {
             guokrArticleService = retrofit.create(GuokrArticleService.class);
         }
         return guokrArticleService;
+    }
+
+    // 封装 DoubanTodayService 请求
+    public static DoubanTodayService getDoubanTodayService() {
+        if (doubanTodayService == null) {
+            Retrofit retrofit = new Retrofit.Builder()
+                    .client(mClient)
+                    .baseUrl(Constants.DOUBAN_MOMENT)
+                    .addConverterFactory(gsonConverterFactory)
+                    .addCallAdapterFactory(rxJavaCallAdapterFactory)
+                    .build();
+            doubanTodayService = retrofit.create(DoubanTodayService.class);
+        }
+        return doubanTodayService;
     }
 
 }
