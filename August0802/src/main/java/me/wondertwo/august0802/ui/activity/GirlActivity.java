@@ -3,10 +3,13 @@ package me.wondertwo.august0802.ui.activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -15,6 +18,7 @@ import com.umeng.analytics.MobclickAgent;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.wondertwo.august0802.R;
+import me.wondertwo.august0802.util.NetStateUtils;
 import me.wondertwo.august0802.util.StatusBarUtil;
 
 /**
@@ -23,6 +27,8 @@ import me.wondertwo.august0802.util.StatusBarUtil;
 public class GirlActivity extends BaseActivity {
 
 
+    @Bind(R.id.activity_girl)
+    RelativeLayout mRelativeLayout;
     @Bind(R.id.girl_tool_btn)
     Toolbar mToolbar;
     @Bind(R.id.girl_picture_iv)
@@ -40,11 +46,16 @@ public class GirlActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        Glide.with(this).load(getIntent().getStringExtra("url"))
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .error(R.drawable.glide_load_error)
-                .into(mGirlPhoto);
-        mGirlPhoto.setContentDescription(getIntent().getStringExtra("desc"));
+        // 检查网络，执行网络请求
+        if (!NetStateUtils.isNetworkAvailable(this)) {
+            Snackbar.make(mRelativeLayout, R.string.please_check_network, Snackbar.LENGTH_LONG).show();
+        } else {
+            Glide.with(this).load(getIntent().getStringExtra("url"))
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .error(R.drawable.glide_load_error)
+                    .into(mGirlPhoto);
+            mGirlPhoto.setContentDescription(getIntent().getStringExtra("desc"));
+        }
 
     }
 

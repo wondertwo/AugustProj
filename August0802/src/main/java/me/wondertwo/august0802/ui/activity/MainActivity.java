@@ -9,7 +9,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -24,10 +23,6 @@ import com.umeng.analytics.MobclickAgent;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.wondertwo.august0802.R;
-import me.wondertwo.august0802.ui.fragment.DoubanFragment;
-import me.wondertwo.august0802.ui.fragment.GirlFragment;
-import me.wondertwo.august0802.ui.fragment.GuokrFragment;
-import me.wondertwo.august0802.ui.fragment.ZhihuFragment;
 import me.wondertwo.august0802.util.NetStateUtils;
 import me.wondertwo.august0802.util.StatusBarUtil;
 
@@ -39,9 +34,14 @@ public class MainActivity extends BaseActivity
     private static final String FRAGMENT_GUOKR = "GuokrFragment";
     private static final String FRAGMENT_DOUBAN = "DoubanFragment";
 
+    private String fragment_zhihu = "me.wondertwo.august0802.ui.fragment.ZhihuFragment";
+    private String fragment_guokr = "me.wondertwo.august0802.ui.fragment.GuokrFragment";
+    private String fragment_douban = "me.wondertwo.august0802.ui.fragment.DoubanFragment";
+    private String fragment_girl = "me.wondertwo.august0802.ui.fragment.GirlFragment";
+
     @Bind(R.id.drawer_layout)
     DrawerLayout drawer;
-    @Bind(R.id.container_global)
+    @Bind(R.id.container_global_co)
     CoordinatorLayout coordinator;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -52,9 +52,7 @@ public class MainActivity extends BaseActivity
 
     private Fragment mFragment = null; //记录Activity当前持有的Fragment
     private int fc = R.id.container_content; //fragment container
-    private FragmentManager fm; // FragmentManager
-    private FragmentTransaction ft; // FragmentTransaction
-    private AlertDialog dialog; // Load Progress Dialog
+    //private AlertDialog dialog; // Load Progress Dialog
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,15 +63,13 @@ public class MainActivity extends BaseActivity
         StatusBarUtil.setColorForDrawerLayout(this, drawer, Color.parseColor("#373B3E"), 0);
 
         setSupportActionBar(toolbar);
-        dialog = new AlertDialog.Builder(this).create();
-        dialog.setContentView(R.layout.dialog_loading_layout);
-        fm = getSupportFragmentManager();
-        ft = fm.beginTransaction();
+        //dialog = new AlertDialog.Builder(this).create();
+        //dialog.setContentView(R.layout.dialog_loading_layout);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "开启奇妙愉快的 [ 悦乎 ] 之旅吧", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(view, "开启奇妙愉快的悦乎之旅吧", Snackbar.LENGTH_LONG).show();
             }
         });
 
@@ -89,17 +85,8 @@ public class MainActivity extends BaseActivity
         if (!NetStateUtils.isNetworkAvailable(this)) {
             Snackbar.make(coordinator, R.string.please_check_network, Snackbar.LENGTH_LONG).show();
         } else {
-            if (!dialog.isShowing()) {
-                dialog.show();
-            }
-
-            if (mFragment != null) {
-                ft.show(mFragment).commit();
-            } else {
-                mFragment = new ZhihuFragment(); //默认进入应用打开知乎
-                ft.add(fc, mFragment, FRAGMENT_ZHIHU).commit();
-            }
-            dialog.dismiss();
+            checkFragmentState();
+            getSupportFragmentManager().beginTransaction().show(mFragment).commit();
         }
     }
 
@@ -139,82 +126,25 @@ public class MainActivity extends BaseActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
         // Handle the action
         if (id == R.id.drawer_zhihu) {
 
-            if (!dialog.isShowing()) {
-                dialog.show();
-            }
-
-            Fragment fragment = fm.findFragmentByTag(FRAGMENT_ZHIHU);
-            if (fragment != null) {
-                ft.hide(mFragment).show(fragment).commit();
-            } else {
-                fragment = new ZhihuFragment();
-                ft.hide(mFragment).add(fc, fragment, FRAGMENT_ZHIHU).commit();
-            }
-            mFragment = fragment;
-            toolbar.setTitle("知乎小报");
-            fab.setVisibility(View.VISIBLE);
-
-            dialog.dismiss();
+            switchFragment(fm, ft, FRAGMENT_ZHIHU, fragment_zhihu, "知乎小报", true);
 
         } else if (id == R.id.drawer_guokr) {
 
-            if (!dialog.isShowing()) {
-                dialog.show();
-            }
-
-            Fragment fragment = fm.findFragmentByTag(FRAGMENT_GUOKR);
-            if (fragment != null) {
-                ft.hide(mFragment).show(fragment).commit();
-            } else {
-                fragment = new GuokrFragment();
-                ft.hide(mFragment).add(fc, fragment, FRAGMENT_GUOKR).commit();
-            }
-            mFragment = fragment;
-            toolbar.setTitle("果壳精选");
-            fab.setVisibility(View.GONE);
-
-            dialog.dismiss();
+            switchFragment(fm, ft, FRAGMENT_GUOKR, fragment_guokr, "果壳精选", false);
 
         } else if (id == R.id.drawer_douban) {
 
-            if (!dialog.isShowing()) {
-                dialog.show();
-            }
-
-            Fragment fragment = fm.findFragmentByTag(FRAGMENT_DOUBAN);
-            if (fragment != null) {
-                ft.hide(mFragment).show(fragment).commit();
-            } else {
-                fragment = new DoubanFragment();
-                ft.hide(mFragment).add(fc, fragment, FRAGMENT_DOUBAN).commit();
-            }
-            mFragment = fragment;
-            toolbar.setTitle("豆瓣一刻");
-            fab.setVisibility(View.VISIBLE);
-
-            dialog.dismiss();
+            switchFragment(fm, ft, FRAGMENT_DOUBAN, fragment_douban, "豆瓣一刻", true);
 
         } else if (id == R.id.drawer_girl) {
 
-            if (!dialog.isShowing()) {
-                dialog.show();
-            }
-
-            Fragment fragment = fm.findFragmentByTag(FRAGMENT_GIRL);
-            if (fragment != null) {
-                ft.hide(mFragment).show(fragment).commit();
-            } else {
-                fragment = new GirlFragment();
-                ft.hide(mFragment).add(fc, fragment, FRAGMENT_GIRL).commit();
-            }
-            mFragment = fragment;
-            toolbar.setTitle("漂亮妹纸");
-            fab.setVisibility(View.GONE);
-
-            dialog.dismiss();
+            switchFragment(fm, ft, FRAGMENT_GIRL, fragment_girl, "漂亮妹纸", false);
 
         } else if (id == R.id.drawer_share) {
             startActivity(new Intent(this, ShareActivity.class));
@@ -224,6 +154,41 @@ public class MainActivity extends BaseActivity
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    // 切换 Fragment
+    private void switchFragment(FragmentManager fm, FragmentTransaction ft,
+                                String tag, String cname, String title, boolean open) {
+        if (!NetStateUtils.isNetworkAvailable(this)) {
+            Snackbar.make(coordinator, R.string.please_check_network, Snackbar.LENGTH_LONG).show();
+        } else {
+            checkFragmentState();
+
+            Fragment fragment = fm.findFragmentByTag(tag);
+            if (fragment != null) {
+                ft.hide(mFragment).show(fragment).commit();
+            } else {
+                fragment = Fragment.instantiate(this, cname);
+                ft.add(fc, fragment, tag);
+                ft.hide(mFragment).show(fragment).commit();
+            }
+            mFragment = fragment;
+            toolbar.setTitle(title);
+
+            if (open) {
+                fab.setVisibility(View.VISIBLE);
+            } else {
+                fab.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    // 检查 mFragment 是否已经创建
+    private void checkFragmentState() {
+        if (mFragment == null) {
+            mFragment = Fragment.instantiate(this, "me.wondertwo.august0802.ui.fragment.ZhihuFragment");
+            getSupportFragmentManager().beginTransaction().add(fc, mFragment, FRAGMENT_ZHIHU).commit();
+        }
     }
 
     @Override

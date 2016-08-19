@@ -47,6 +47,7 @@ public class GuokrFragment extends BaseFragment {
     @Bind(R.id.fragment_list_recycler)
     EasyRecyclerView mRecyclerView;
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -94,7 +95,7 @@ public class GuokrFragment extends BaseFragment {
                 intent.putExtra("article_title", adapter.getItem(position).title);
                 intent.putExtra("article_id", adapter.getItem(position).id); //传递当前点击item的文章id
                 intent.putExtra("article_summary", adapter.getItem(position).summary); //传递当前点击item的文章id
-                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
+                startActivity(intent);
             }
         });
     }

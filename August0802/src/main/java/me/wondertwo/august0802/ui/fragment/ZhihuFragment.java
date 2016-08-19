@@ -129,7 +129,7 @@ public class ZhihuFragment extends BaseFragment {
                 intent.putExtra("story_id", adapter.getItem(position).id); //传递当前点击item的id
                 intent.putExtra("story_title", adapter.getItem(position).title);
                 intent.putExtra("story_image", adapter.getItem(position).images.get(0));
-                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
+                startActivity(intent);
             }
         });
     }

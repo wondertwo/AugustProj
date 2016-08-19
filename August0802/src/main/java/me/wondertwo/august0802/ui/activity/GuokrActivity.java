@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -32,6 +33,7 @@ import me.wondertwo.august0802.R;
 import me.wondertwo.august0802.bean.RetrofitClient;
 import me.wondertwo.august0802.bean.guokr.GuokrArticle;
 import me.wondertwo.august0802.util.Constants;
+import me.wondertwo.august0802.util.NetStateUtils;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -51,6 +53,8 @@ public class GuokrActivity extends BaseActivity {
     private String articleUrl; // 文章链接
     private String articleImage; // 顶部图片
 
+    @Bind(R.id.activity_article_co)
+    CoordinatorLayout mCoorLayout;
     @Bind(R.id.article_web_view)
     WebView mWebView;
     @Bind(R.id.article_body_title)
@@ -89,7 +93,12 @@ public class GuokrActivity extends BaseActivity {
         // 配置 WebView
         configWebViewAttrs();
         // mWebView.loadUrl(articleUrl); // 懒人的做法
-        executeRequestData(articleId);
+        // 检查网络，执行网络请求
+        if (!NetStateUtils.isNetworkAvailable(this)) {
+            Snackbar.make(mCoorLayout, R.string.please_check_network, Snackbar.LENGTH_LONG).show();
+        } else {
+            executeRequestData(articleId);
+        }
 
         // 分享按钮事件
         configFloatingBtn();

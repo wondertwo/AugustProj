@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
@@ -30,6 +31,7 @@ import me.wondertwo.august0802.R;
 import me.wondertwo.august0802.bean.RetrofitClient;
 import me.wondertwo.august0802.bean.douban.ArticlePhotos;
 import me.wondertwo.august0802.bean.douban.DoubanArticle;
+import me.wondertwo.august0802.util.NetStateUtils;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -47,6 +49,8 @@ public class DoubanActivity extends BaseActivity {
     private String doubanTitle; // 文章标题
     private String shareUrl; // 分享链接
 
+    @Bind(R.id.activity_article_co)
+    CoordinatorLayout mCoorLayout;
     @Bind(R.id.article_web_view)
     WebView mWebView;
     @Bind(R.id.article_body_title)
@@ -83,8 +87,12 @@ public class DoubanActivity extends BaseActivity {
 
         // 配置 WebView
         configWebViewAttrs();
-        // 执行网络请求
-        executeRequestData(doubanId);
+        // 检查网络，执行网络请求
+        if (!NetStateUtils.isNetworkAvailable(this)) {
+            Snackbar.make(mCoorLayout, R.string.please_check_network, Snackbar.LENGTH_LONG).show();
+        } else {
+            executeRequestData(doubanId);
+        }
 
 
         // 分享按钮事件

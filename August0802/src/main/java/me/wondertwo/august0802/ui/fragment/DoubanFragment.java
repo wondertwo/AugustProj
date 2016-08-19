@@ -58,6 +58,7 @@ public class DoubanFragment extends BaseFragment {
     @Bind(R.id.fragment_list_recycler)
     EasyRecyclerView mRecyclerView;
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -153,7 +154,7 @@ public class DoubanFragment extends BaseFragment {
                 intent.putExtra("douban_title", adapter.getItem(position).title);
                 intent.putExtra("douban_image", adapter.getItem(position).image);
                 intent.putExtra("douban_short_url", adapter.getItem(position).short_url);
-                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
+                startActivity(intent);
             }
         });
     }

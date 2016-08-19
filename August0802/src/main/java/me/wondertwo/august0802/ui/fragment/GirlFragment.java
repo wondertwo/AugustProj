@@ -55,6 +55,7 @@ public class GirlFragment extends BaseFragment {
     @Bind(R.id.fragment_girl_refresh)
     SwipeRefreshLayout mRefreshLayout;
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -108,7 +109,7 @@ public class GirlFragment extends BaseFragment {
                 Intent intent = new Intent(getActivity(), GirlActivity.class);
                 intent.putExtra("desc",adapter.getItem(position).desc);
                 intent.putExtra("url",adapter.getItem(position).url);
-                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
+                startActivity(intent);
             }
         });
     }

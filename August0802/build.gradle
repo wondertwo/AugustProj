@@ -10,10 +10,10 @@ android {
 
     defaultConfig {
         applicationId "me.wondertwo.august0802"
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 23
-        versionCode 3
-        versionName "1.2.0"
+        versionCode 4
+        versionName "1.4.0"
 
         // dex突破65535的限制
         // multiDexEnabled true
