@@ -178,7 +178,7 @@ public class DoubanActivity extends BaseActivity {
                             // HTML头部，其中 <link href="file:///android_asset/douban_master.css" type="text/css" rel="stylesheet"/>
                             // 指向CSS文件所在目录，这里加载应用本地CSS文件，CSS文件已提前下载好存放在在项目的 /main/assets/目录下
                             String html_header = "<html><head><meta charset=\\\"utf-8\\\" /><link href=\"file:///android_asset/douban_master.css\" type=\"text/css\" rel=\"stylesheet\"/></head>"
-                                    + "<body>"+ "<div class=\"container bs-docs-container\"><div class=\"post-container\">" ;
+                                    + "<body><div class=\"container bs-docs-container\"><div class=\"post-container\">" ;
                             // HTML尾部
                             String html_footer = "</div></div></body></html>";
 
