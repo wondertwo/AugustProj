@@ -25,6 +25,7 @@ import com.umeng.analytics.MobclickAgent;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -266,7 +267,7 @@ public class ZhihuFragment extends BaseFragment {
             Snackbar.make(root, "当前加载的是" + years + "年" + (months + 1) + "月" + days + "日的数据", Snackbar.LENGTH_LONG).show();
 
             mAdapter.clear();
-            if (pick == date) {
+            if (Objects.equals(pick, date)) {
                 loadLatestData();
             } else {
                 loadSpecifiedDate(specified);
