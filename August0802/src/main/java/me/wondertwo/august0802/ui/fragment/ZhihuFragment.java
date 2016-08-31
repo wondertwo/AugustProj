@@ -266,8 +266,11 @@ public class ZhihuFragment extends BaseFragment {
             Snackbar.make(root, "当前加载的是" + years + "年" + (months + 1) + "月" + days + "日的数据", Snackbar.LENGTH_LONG).show();
 
             mAdapter.clear();
-            if (pick == date) loadLatestData();
-            loadSpecifiedDate(specified);
+            if (pick == date) {
+                loadLatestData();
+            } else {
+                loadSpecifiedDate(specified);
+            }
         }
     }
 
