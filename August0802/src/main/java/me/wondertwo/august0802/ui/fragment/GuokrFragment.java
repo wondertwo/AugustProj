@@ -1,10 +1,10 @@
 package me.wondertwo.august0802.ui.fragment;
 
-import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -29,7 +29,7 @@ import me.wondertwo.august0802.bean.RetrofitClient;
 import me.wondertwo.august0802.bean.guokr.Guokr;
 import me.wondertwo.august0802.bean.guokr.GuokrItem;
 import me.wondertwo.august0802.ui.activity.GuokrActivity;
-import me.wondertwo.august0802.util.Divider;
+import me.wondertwo.august0802.util.RecyclerDivider;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -46,6 +46,8 @@ public class GuokrFragment extends BaseFragment {
     SwipeRefreshLayout mRefreshLayout;
     @Bind(R.id.fragment_list_recycler)
     EasyRecyclerView mRecyclerView;
+    @Bind(R.id.floating_bar)
+    FloatingActionButton fab;
 
 
     @Nullable
@@ -53,6 +55,7 @@ public class GuokrFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         ButterKnife.bind(this, view);
+        fab.setVisibility(View.INVISIBLE);
 
         initRecyclerView();
 
@@ -70,7 +73,7 @@ public class GuokrFragment extends BaseFragment {
                 1, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(manager);
         //设置ItemDecoration
-        mRecyclerView.addItemDecoration(new Divider(getActivity(), Divider.VERTICAL_LIST));
+        mRecyclerView.addItemDecoration(new RecyclerDivider(getActivity(), RecyclerDivider.VERTICAL_LIST));
         //设置ItemAnimator
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         //设置Adapter

@@ -21,4 +21,14 @@ public class ZhihuAdapter extends RecyclerArrayAdapter<DailyStoryItem> {
     public BaseViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) {
         return new ZhihuViewHolder(parent);
     }
+
+//    @Override
+//    public void OnBindViewHolder(BaseViewHolder holder, int position) {
+//        super.OnBindViewHolder(holder, position);
+//    }
+//
+//    @Override
+//    public int getViewType(int position) {
+//        return super.getViewType(position);
+//    }
 }

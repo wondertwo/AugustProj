@@ -120,7 +120,10 @@ public class GirlFragment extends BaseFragment {
 
         Observer<List<GirlItem>> observer = new Observer<List<GirlItem>>() {
                     @Override
-                    public void onCompleted() {}
+                    public void onCompleted() {
+
+                    }
+
                     @Override
                     public void onError(Throwable e) {
                         new AlertDialog.Builder(getActivity())
@@ -140,6 +143,7 @@ public class GirlFragment extends BaseFragment {
                                 .create().show();
                         Log.e(TAG, e.getMessage());
                     }
+
                     @Override
                     public void onNext(List<GirlItem> items) {
                         mAdapter.addAll(items);

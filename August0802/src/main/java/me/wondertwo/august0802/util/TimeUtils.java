@@ -7,6 +7,26 @@ import java.util.Date;
 public class TimeUtils {
 
     /**
+     * Return the formated date, such as yyyyMMdd
+     */
+    public static String formatDate1(int year, int month, int day) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        // 得到当前日期，并格式化
+        Date d = new Date(year-1900, month, day);
+        return format.format(d);
+    }
+
+    /**
+     * Return the formated date, such as yyyy-MM-dd
+     */
+    public static String formatDate2(int year, int month, int day) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        // 得到当前日期，并格式化
+        Date d = new Date(year-1900, month, day);
+        return format.format(d);
+    }
+
+    /**
      * Return timestamp in milliseconds
      */
     public static long getTimestamp() {

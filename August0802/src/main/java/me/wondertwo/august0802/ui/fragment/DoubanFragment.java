@@ -1,10 +1,13 @@
 package me.wondertwo.august0802.ui.fragment;
 
-import android.app.ActivityOptions;
+import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -12,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
@@ -32,7 +36,8 @@ import me.wondertwo.august0802.bean.douban.DoubanItem;
 import me.wondertwo.august0802.bean.douban.DoubanPost;
 import me.wondertwo.august0802.bean.douban.DoubanToday;
 import me.wondertwo.august0802.ui.activity.DoubanActivity;
-import me.wondertwo.august0802.util.Divider;
+import me.wondertwo.august0802.util.RecyclerDivider;
+import me.wondertwo.august0802.util.TimeUtils;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -43,20 +48,23 @@ import rx.schedulers.Schedulers;
 public class DoubanFragment extends BaseFragment {
 
     private String TAG = "DoubanFragment";
-    private Handler mHandler = new Handler();
     private DoubanAdapter mAdapter;
 
-    private SimpleDateFormat format;
+    private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     private String mCurrentDate; // 当前日期，豆瓣一刻上线日期2014-05-12
-    private int YEAR = 0;
-    private int MONTH = 0;
-    private int DAY = 0;
+    private int YEAR = 2014;
+    private int MONTH = 5;
+    private int DAY = 12;
     private int loadCount = 1; // 记录加载次数
 
     @Bind(R.id.fragment_list_refresh)
     SwipeRefreshLayout mRefreshLayout;
     @Bind(R.id.fragment_list_recycler)
     EasyRecyclerView mRecyclerView;
+    @Bind(R.id.floating_bar)
+    FloatingActionButton fab;
+    @Bind(R.id.fragment_list_root)
+    CoordinatorLayout root;
 
 
     @Override
@@ -68,19 +76,13 @@ public class DoubanFragment extends BaseFragment {
     }
 
     private void initCurrentDate() {
-
-        format = new SimpleDateFormat("yyyy-MM-dd"); // 定义日期格式
-
         // 日历日期：即当前日期前一月的今天，比如今天是20160818，则得到20160718
         Calendar calendar = Calendar.getInstance();
         YEAR = calendar.get(Calendar.YEAR);  // 2016
-        MONTH = calendar.get(Calendar.MONTH); // 07
+        MONTH = calendar.get(Calendar.MONTH); // 7
         DAY = calendar.get(Calendar.DAY_OF_MONTH); // 18
 
-        // 得到当前日期，并格式化
-        Date d = new Date(YEAR-1900, MONTH, DAY); // 得到2016-08-18
-        mCurrentDate = format.format(d); // 2016-08-18
-
+        mCurrentDate = TimeUtils.formatDate2(YEAR, MONTH, DAY); // 2016-08-18
     }
 
     @Nullable
@@ -90,11 +92,38 @@ public class DoubanFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         ButterKnife.bind(this, view);
 
+        initFloatingActionBtn();
+
         initRecyclerView();
 
         initRefreshLayout();
 
         return view;
+    }
+
+    private void initFloatingActionBtn() {
+        fab.setVisibility(View.VISIBLE);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog dpd = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                    }
+                }, YEAR, MONTH, DAY);
+                dpd.setTitle("选择日期以加载当天数据");
+
+                final DatePicker picker = dpd.getDatePicker();
+                dpd.setButton(DatePickerDialog.BUTTON_POSITIVE, "确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        loadDataByDate(picker.getYear(), picker.getMonth(), picker.getDayOfMonth());
+                    }
+                });
+                dpd.show();
+            }
+        });
     }
 
     private void initRecyclerView() {
@@ -106,14 +135,14 @@ public class DoubanFragment extends BaseFragment {
                 1, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(manager);
         //设置ItemDecoration
-        mRecyclerView.addItemDecoration(new Divider(getActivity(), Divider.VERTICAL_LIST));
+        mRecyclerView.addItemDecoration(new RecyclerDivider(getActivity(), RecyclerDivider.VERTICAL_LIST));
         //设置ItemAnimator
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         //设置Adapter
         mRecyclerView.setAdapter(mAdapter);
 
         //准备数据
-        loadCurrentData(mCurrentDate);
+        loadSpecifiedDate(mCurrentDate);
 
     }
 
@@ -129,7 +158,7 @@ public class DoubanFragment extends BaseFragment {
                     @Override
                     public void run() {
                         mAdapter.clear();
-                        loadCurrentData(mCurrentDate);
+                        loadSpecifiedDate(mCurrentDate);
                         mRefreshLayout.setRefreshing(false);
                     }
                 }, 2000);
@@ -159,7 +188,7 @@ public class DoubanFragment extends BaseFragment {
         });
     }
 
-    private void loadCurrentData(String date) {
+    private void loadSpecifiedDate(String date) {
         unSubscribe();
 
         subscription = RetrofitClient.getDoubanTodayService().getDoubanTodaies(date)
@@ -215,11 +244,32 @@ public class DoubanFragment extends BaseFragment {
                 });
     }
 
+    // 加载往期数据
     private void loadBeforeData() {
         Date d = new Date(YEAR - 1900, MONTH, DAY - loadCount); // 2016-08-17
         String date = format.format(d);
-        loadCurrentData(date);
+        loadSpecifiedDate(date);
         loadCount++;
+    }
+
+    // 选择日期加载数据，在MainActivity中调用
+    public void loadDataByDate(int year, int month, int day) {
+        //先进行日期范围的校验
+        String specified = TimeUtils.formatDate2(year, month, day);
+        Integer pick = Integer.parseInt(specified.replace("-", ""));
+        Integer date = Integer.parseInt(mCurrentDate.replace("-", ""));
+
+        if (pick < 20140512) {
+            Snackbar.make(root, "请选择正确的日期，2014年05月12日至今天", Snackbar.LENGTH_LONG).show();
+        } else if (pick > date) {
+            Snackbar.make(root, "请选择正确的日期，2014年05月12日至今天", Snackbar.LENGTH_LONG).show();
+        } else {
+            //加载指定日期数据
+            Snackbar.make(root, "当前加载的是" + year + "年" + (month + 1) + "月" + day + "日的数据", Snackbar.LENGTH_LONG).show();
+
+            mAdapter.clear();
+            loadSpecifiedDate(specified);
+        }
     }
 
     @Override

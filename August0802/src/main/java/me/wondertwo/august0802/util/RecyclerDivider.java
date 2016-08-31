@@ -14,7 +14,7 @@ import android.view.View;
  *
  * Created by wondertwo on 2016/8/10.
  */
-public class Divider extends RecyclerView.ItemDecoration {
+public class RecyclerDivider extends RecyclerView.ItemDecoration {
 
     private Drawable mDivider;
     private int mOrientation;
@@ -24,7 +24,7 @@ public class Divider extends RecyclerView.ItemDecoration {
     //通过获取系统属性中的listDivider来添加，在系统中的AppTheme中设置
     public static final int[] ATRRS = new int[]{android.R.attr.listDivider};
 
-    public Divider(Context context, int orientation) {
+    public RecyclerDivider(Context context, int orientation) {
         final TypedArray ta = context.obtainStyledAttributes(ATRRS);
         this.mDivider = ta.getDrawable(0);
         ta.recycle();

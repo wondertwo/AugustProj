@@ -4,12 +4,10 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -41,12 +39,10 @@ public class MainActivity extends BaseActivity
 
     @Bind(R.id.drawer_layout)
     DrawerLayout drawer;
-    @Bind(R.id.container_global_co)
+    @Bind(R.id.container_global)
     CoordinatorLayout coordinator;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.floating_bar)
-    FloatingActionButton fab;
     @Bind(R.id.navigation_view)
     NavigationView navigationView;
 
@@ -63,15 +59,6 @@ public class MainActivity extends BaseActivity
         StatusBarUtil.setColorForDrawerLayout(this, drawer, Color.parseColor("#373B3E"), 0);
 
         setSupportActionBar(toolbar);
-        //dialog = new AlertDialog.Builder(this).create();
-        //dialog.setContentView(R.layout.dialog_loading_layout);
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "开启奇妙愉快的悦乎之旅吧", Snackbar.LENGTH_LONG).show();
-            }
-        });
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -132,19 +119,19 @@ public class MainActivity extends BaseActivity
         // Handle the action
         if (id == R.id.drawer_zhihu) {
 
-            switchFragment(fm, ft, FRAGMENT_ZHIHU, fragment_zhihu, "知乎小报", true);
+            switchFragment(fm, ft, FRAGMENT_ZHIHU, fragment_zhihu, "知乎小报");
 
         } else if (id == R.id.drawer_guokr) {
 
-            switchFragment(fm, ft, FRAGMENT_GUOKR, fragment_guokr, "果壳精选", false);
+            switchFragment(fm, ft, FRAGMENT_GUOKR, fragment_guokr, "果壳精选");
 
         } else if (id == R.id.drawer_douban) {
 
-            switchFragment(fm, ft, FRAGMENT_DOUBAN, fragment_douban, "豆瓣一刻", true);
+            switchFragment(fm, ft, FRAGMENT_DOUBAN, fragment_douban, "豆瓣一刻");
 
         } else if (id == R.id.drawer_girl) {
 
-            switchFragment(fm, ft, FRAGMENT_GIRL, fragment_girl, "漂亮妹纸", false);
+            switchFragment(fm, ft, FRAGMENT_GIRL, fragment_girl, "漂亮妹纸");
 
         } else if (id == R.id.drawer_share) {
             startActivity(new Intent(this, ShareActivity.class));
@@ -158,7 +145,7 @@ public class MainActivity extends BaseActivity
 
     // 切换 Fragment
     private void switchFragment(FragmentManager fm, FragmentTransaction ft,
-                                String tag, String cname, String title, boolean open) {
+                                String tag, String cname, String title) {
         if (!NetStateUtils.isNetworkAvailable(this)) {
             Snackbar.make(coordinator, R.string.please_check_network, Snackbar.LENGTH_LONG).show();
         } else {
@@ -174,12 +161,6 @@ public class MainActivity extends BaseActivity
             }
             mFragment = fragment;
             toolbar.setTitle(title);
-
-            if (open) {
-                fab.setVisibility(View.VISIBLE);
-            } else {
-                fab.setVisibility(View.GONE);
-            }
         }
     }
 

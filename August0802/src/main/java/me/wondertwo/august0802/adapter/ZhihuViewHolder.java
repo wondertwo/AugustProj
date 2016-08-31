@@ -28,7 +28,6 @@ public class ZhihuViewHolder extends BaseViewHolder<DailyStoryItem> {
     @Override
     public void setData(DailyStoryItem data) {
         super.setData(data);
-        //Log.e("ZhihuViewHolder", data.images.get(0));
         Glide.with(getContext())
                 .load(data.images.get(0))
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
