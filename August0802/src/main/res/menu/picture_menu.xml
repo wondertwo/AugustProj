@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/picture_save"
+        android:orderInCategory="100"
+        android:title="@string/picture_save"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/picture_share"
+        android:orderInCategory="100"
+        android:title="@string/picture_share"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/picture_favorite"
+        android:orderInCategory="100"
+        android:title="@string/picture_favorite"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/picture_edit"
+        android:orderInCategory="100"
+        android:title="@string/picture_edit"
+        app:showAsAction="never" />
+</menu>

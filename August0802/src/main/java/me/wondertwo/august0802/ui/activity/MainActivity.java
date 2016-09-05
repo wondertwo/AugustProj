@@ -15,6 +15,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.umeng.analytics.MobclickAgent;
 
@@ -89,7 +90,7 @@ public class MainActivity extends BaseActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main_toolbar_right, menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
 
@@ -98,9 +99,23 @@ public class MainActivity extends BaseActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_setting) {
+
+            // setting
+            Toast.makeText(MainActivity.this, "然而并没有找到设置 \\(^o^)/ ", Toast.LENGTH_SHORT).show();
+
             return true;
-        } else if (id == R.id.action_abouts) {
+        } else if (id == R.id.action_about) {
+            startActivity(new Intent(this, AboutActivity.class));
+            return true;
+        } else if (id == R.id.action_share) {
+            startActivity(new Intent(this, ShareActivity.class));
+            return true;
+        } else if (id == R.id.action_update) {
+
+            // update
+            Toast.makeText(MainActivity.this, "当前已是最新版本喔 \\(^o^)/ ", Toast.LENGTH_SHORT).show();
+
             return true;
         }
 

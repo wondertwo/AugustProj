@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
 
 import com.umeng.analytics.MobclickAgent;
 
@@ -37,7 +36,7 @@ public class ShareActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_toolbar_right, menu);
+        getMenuInflater().inflate(R.menu.picture_menu, menu);
         return true;
     }
 
@@ -48,9 +47,13 @@ public class ShareActivity extends BaseActivity {
         //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
             finish();
-        } else if (id == R.id.action_settings) {
+        } else if (id == R.id.picture_save) {
             return true;
-        } else if (id == R.id.action_abouts) {
+        } else if (id == R.id.picture_share) {
+            return true;
+        } else if (id == R.id.picture_favorite) {
+            return true;
+        } else if (id == R.id.picture_edit) {
             return true;
         }
 

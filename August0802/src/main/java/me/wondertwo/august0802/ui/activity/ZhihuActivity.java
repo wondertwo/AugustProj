@@ -38,9 +38,9 @@ import rx.schedulers.Schedulers;
 /**
  * Created by wondertwo on 2016/8/10.
  */
-public class DailyActivity extends BaseActivity {
+public class ZhihuActivity extends BaseActivity {
 
-    private String TAG = "DailyActivity";
+    private String TAG = "ZhihuActivity";
 
     protected Subscription mSubscription;
 
@@ -132,8 +132,8 @@ public class DailyActivity extends BaseActivity {
         mWebView.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN){
-                    if (keyCode == KeyEvent.KEYCODE_BACK && mWebView.canGoBack()){
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK && mWebView.canGoBack()) {
                         mWebView.goBack();
                         return true;
                     }
@@ -174,7 +174,7 @@ public class DailyActivity extends BaseActivity {
                         }*/
 
                         // 设置页面顶部图片
-                        Glide.with(DailyActivity.this).load(dailyArticle.image)
+                        Glide.with(ZhihuActivity.this).load(dailyArticle.image)
                                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                                 .placeholder(R.drawable.content_no_image)
                                 .into(mHeaderIv);
@@ -241,7 +241,7 @@ public class DailyActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.content_toolbar_right, menu);
+        getMenuInflater().inflate(R.menu.content_menu, menu);
         return true;
     }
 
@@ -254,16 +254,20 @@ public class DailyActivity extends BaseActivity {
             // 页面左上角返回按钮事件监听
             finish();
             return true;
-        } else if (id == R.id.action_comments) {
+        } else if (id == R.id.passage_comments) {
 
             // 获取文章评论情况
             // show a dialog, to show the comments
             return true;
 
-        } else if (id == R.id.action_open_in_browser) {
+        } else if (id == R.id.passage_open_in_browser) {
             // 在浏览器中打开
             startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(shareUrl)));
             return true;
+        } else if (id == R.id.passage_favorite) {
+            // 收藏文章到收藏夹
+
+
         }
 
         return super.onOptionsItemSelected(item);

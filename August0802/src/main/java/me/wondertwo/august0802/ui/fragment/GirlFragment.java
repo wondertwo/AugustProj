@@ -181,9 +181,7 @@ public class GirlFragment extends BaseFragment {
                 .doOnNext(new Action1<List<GirlItem>>() {
                     @Override
                     public void call(List<GirlItem> girlItems) {
-                        // 写入缓存
-                        // DataCache.getInstance().writeItems(girlItems);
-                        // Log.e("LoadingData", "data write in disk cache");
+
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())

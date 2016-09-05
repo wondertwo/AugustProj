@@ -108,6 +108,6 @@
         android:layout_margin="@dimen/fab_margin"
         app:layout_anchor="@id/article_app_bar"
         app:layout_anchorGravity="bottom|end"
-        android:src="@drawable/ic_menu_share" />
+        android:src="@drawable/img_passage_share" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -233,7 +233,7 @@ public class DoubanActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.content_toolbar_right, menu);
+        getMenuInflater().inflate(R.menu.content_menu, menu);
         return true;
     }
 
@@ -246,13 +246,13 @@ public class DoubanActivity extends BaseActivity {
             // 页面左上角返回按钮事件监听
             finish();
             return true;
-        } else if (id == R.id.action_comments) {
+        } else if (id == R.id.passage_comments) {
 
             // 获取文章评论情况
             // show a dialog, to show the comments
             return true;
 
-        } else if (id == R.id.action_open_in_browser) {
+        } else if (id == R.id.passage_open_in_browser) {
             // 在浏览器中打开
             startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(shareUrl)));
             return true;

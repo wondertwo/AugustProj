@@ -23,7 +23,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <!--main_toolbar_right dailyArticle area-->
+    <!--main_menu dailyArticle area-->
     <include layout="@layout/container_content" />
 
 </android.support.design.widget.CoordinatorLayout>

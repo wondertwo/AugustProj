@@ -36,7 +36,7 @@ public class AboutActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_toolbar_right, menu);
+        // getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
 
@@ -47,11 +47,13 @@ public class AboutActivity extends BaseActivity {
         //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
             finish();
-        } else if (id == R.id.action_settings) {
-            return true;
-        } else if (id == R.id.action_abouts) {
-            return true;
         }
+
+        /*else if (id == R.id.action_setting) {
+            return true;
+        } else if (id == R.id.action_about) {
+            return true;
+        }*/
 
         return super.onOptionsItemSelected(item);
     }

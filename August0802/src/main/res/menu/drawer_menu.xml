@@ -24,12 +24,12 @@
         <menu>
             <item
                 android:id="@+id/drawer_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="分享" />
+                android:icon="@drawable/img_menu_share"
+                android:title="快乐分享" />
             <item
                 android:id="@+id/drawer_about"
-                android:icon="@drawable/ic_menu_send"
-                android:title="关于" />
+                android:icon="@drawable/img_menu_about"
+                android:title="关于应用" />
         </menu>
     </item>
 

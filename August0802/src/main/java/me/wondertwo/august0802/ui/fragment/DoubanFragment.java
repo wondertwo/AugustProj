@@ -260,9 +260,9 @@ public class DoubanFragment extends BaseFragment {
         Integer date = Integer.parseInt(mCurrentDate.replace("-", ""));
 
         if (pick < 20140512) {
-            Snackbar.make(root, "请选择正确的日期，2014年05月12日至今天", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(root, "请选择有效日期哈，2014年5月12日至今天", Snackbar.LENGTH_LONG).show();
         } else if (pick > date) {
-            Snackbar.make(root, "请选择正确的日期，2014年05月12日至今天", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(root, "请选择有效日期哈，2014年5月12日至今天", Snackbar.LENGTH_LONG).show();
         } else {
             //加载指定日期数据
             Snackbar.make(root, "当前加载的是" + year + "年" + (month + 1) + "月" + day + "日的数据", Snackbar.LENGTH_LONG).show();

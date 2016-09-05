@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -33,7 +32,7 @@ import me.wondertwo.august0802.adapter.ZhihuAdapter;
 import me.wondertwo.august0802.bean.RetrofitClient;
 import me.wondertwo.august0802.bean.zhihu.DailyStory;
 import me.wondertwo.august0802.bean.zhihu.DailyStoryItem;
-import me.wondertwo.august0802.ui.activity.DailyActivity;
+import me.wondertwo.august0802.ui.activity.ZhihuActivity;
 import me.wondertwo.august0802.util.RecyclerDivider;
 import me.wondertwo.august0802.util.TimeUtils;
 import rx.Observer;
@@ -47,7 +46,6 @@ import rx.schedulers.Schedulers;
 public class ZhihuFragment extends BaseFragment {
 
     private String TAG = "ZhihuFragment";
-    private Handler mHandler = new Handler();
     private ZhihuAdapter mAdapter;
 
     // 2013年5月20日知乎日报上线
@@ -166,7 +164,7 @@ public class ZhihuFragment extends BaseFragment {
             @Override
             public void onItemClick(int position) {
                 // handle the item click events
-                Intent intent = new Intent(getActivity(), DailyActivity.class);
+                Intent intent = new Intent(getActivity(), ZhihuActivity.class);
                 intent.putExtra("story_id", adapter.getItem(position).id); //传递当前点击item的id
                 intent.putExtra("story_title", adapter.getItem(position).title);
                 intent.putExtra("story_image", adapter.getItem(position).images.get(0));
@@ -258,9 +256,9 @@ public class ZhihuFragment extends BaseFragment {
         Integer date = Integer.parseInt(TimeUtils.formatDate1(year, month, day));
 
         if (pick < 20130520) {
-            Snackbar.make(root, "请选择正确的日期，2013年05月20日至今天", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(root, "请选择有效日期哈，2013年5月20日至今天", Snackbar.LENGTH_LONG).show();
         } else if (pick > date) {
-            Snackbar.make(root, "请选择正确的日期，2013年05月20日至今天", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(root, "请选择有效日期哈，2013年5月20日至今天", Snackbar.LENGTH_LONG).show();
         } else {
             //加载指定日期数据
             Snackbar.make(root, "当前加载的是" + years + "年" + (months + 1) + "月" + days + "日的数据", Snackbar.LENGTH_LONG).show();

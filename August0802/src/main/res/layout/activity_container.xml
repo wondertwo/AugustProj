@@ -8,7 +8,7 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
-    <!--main_toolbar_right dailyArticle-->
+    <!--main_menu dailyArticle-->
     <include
         layout="@layout/container_gloable"
         android:layout_width="match_parent"
@@ -22,6 +22,6 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/drawer_header_image"
-        app:menu="@menu/drawer_list_menu" />
+        app:menu="@menu/drawer_menu" />
 
 </android.support.v4.widget.DrawerLayout>

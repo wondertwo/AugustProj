@@ -3,13 +3,12 @@ package me.wondertwo.august0802.ui.activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -28,7 +27,7 @@ public class GirlActivity extends BaseActivity {
 
 
     @Bind(R.id.activity_girl)
-    RelativeLayout mRelativeLayout;
+    LinearLayout mLinearLayout;
     @Bind(R.id.girl_tool_btn)
     Toolbar mToolbar;
     @Bind(R.id.girl_picture_iv)
@@ -48,7 +47,7 @@ public class GirlActivity extends BaseActivity {
 
         // 检查网络，执行网络请求
         if (!NetStateUtils.isNetworkAvailable(this)) {
-            Snackbar.make(mRelativeLayout, R.string.please_check_network, Snackbar.LENGTH_LONG).show();
+            Snackbar.make(mLinearLayout, R.string.please_check_network, Snackbar.LENGTH_LONG).show();
         } else {
             Glide.with(this).load(getIntent().getStringExtra("url"))
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
@@ -62,7 +61,7 @@ public class GirlActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_toolbar_right, menu);
+        getMenuInflater().inflate(R.menu.picture_menu, menu);
         return true;
     }
 
@@ -73,9 +72,13 @@ public class GirlActivity extends BaseActivity {
         //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
             finish();
-        } else if (id == R.id.action_settings) {
+        } else if (id == R.id.picture_save) {
             return true;
-        } else if (id == R.id.action_abouts) {
+        } else if (id == R.id.picture_share) {
+            return true;
+        } else if (id == R.id.picture_favorite) {
+            return true;
+        } else if (id == R.id.picture_edit) {
             return true;
         }
 
