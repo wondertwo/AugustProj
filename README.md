@@ -5,6 +5,9 @@
 果壳精选（数据来源：果壳网），豆瓣一刻（数据来源：豆瓣网），漂亮妹纸（数据来源：[干货集中营福利](http://gank.io/api/data/%E7%A6%8F%E5%88%A9/1000/1)），感谢数据内容的提供者。
 可扫描以下二维码下载体验，欢迎大家star！
 
+![](http://7xt4h7.com1.z0.glb.clouddn.com/Fir.im%E5%86%85%E6%B5%8B%E5%B9%B3%E5%8F%B0-%E6%82%A6%E4%B9%8E-%E4%BA%8C%E7%BB%B4%E7%A0%81.png)
+
+
 
 ## Screenshots
 
