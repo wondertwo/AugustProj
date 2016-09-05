@@ -1,8 +1,8 @@
 
 ## About
 
-悦乎是一个小巧精致的综合阅读类Android客户端App，目前已经更新到version1.8.0版本，集成的功能有知乎小报（数据来源：[知乎日报]((https://github.com/izzyleung/ZhihuDailyPurify/wiki/%E7%9F%A5%E4%B9%8E%E6%97%A5%E6%8A%A5-API-%E5%88%86%E6%9E%90))），
-果壳精选（数据来源：果壳网），豆瓣一刻（数据来源：豆瓣网），漂亮妹纸（数据来源：[干货集中营每日福利]((http://gank.io/api/data/%E7%A6%8F%E5%88%A9/1000/1))），感谢数据内容的提供者。
+悦乎是一个小巧精致的综合阅读类Android客户端App，目前已经更新到version1.8.0版本，集成的功能有知乎小报（数据来源：[知乎日报](https://github.com/izzyleung/ZhihuDailyPurify/wiki/%E7%9F%A5%E4%B9%8E%E6%97%A5%E6%8A%A5-API-%E5%88%86%E6%9E%90)），
+果壳精选（数据来源：果壳网），豆瓣一刻（数据来源：豆瓣网），漂亮妹纸（数据来源：[干货集中营福利](http://gank.io/api/data/%E7%A6%8F%E5%88%A9/1000/1)），感谢数据内容的提供者。
 可扫描以下二维码下载体验，欢迎大家star！
 
 ![](http://7xt4h7.com1.z0.glb.clouddn.com/Fir.im%E5%86%85%E6%B5%8B%E5%B9%B3%E5%8F%B0-%E6%82%A6%E4%B9%8E-%E4%BA%8C%E7%BB%B4%E7%A0%81.png)
